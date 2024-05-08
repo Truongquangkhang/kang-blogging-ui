@@ -1,4 +1,14 @@
+import { useState } from 'react'
+import ApiIam from '../../../apis/kang-blogging/iam'
+
 const FormLogin = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const SubmitFormLoginHandler = async () => {
+    const data = await ApiIam.login({ username, password })
+    console.log(data)
+  }
+
   return (
     <div className="w-full max-w-xs">
       <form className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -9,6 +19,8 @@ const FormLogin = () => {
             id="username"
             type="text"
             placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="mb-6">
@@ -18,13 +30,16 @@ const FormLogin = () => {
             id="password"
             type="password"
             placeholder="******************"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <p className="text-red-500 text-xs italic">Please choose a password.</p>
         </div>
         <div className="flex items-center justify-between">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button">
+            type="button"
+            onClick={SubmitFormLoginHandler}>
             Sign In
           </button>
           <a
