@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
-import Home from './home/home.tsx'
 import Login from './login/index.tsx';
 import NotFound from './errors/forbidden/index.tsx';
+import Home from './home/index.tsx';
 
 
 const Router = createBrowserRouter([
