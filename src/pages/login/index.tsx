@@ -1,11 +1,11 @@
+import FormLogin from './components/form_login'
 
 const Login = () => {
-    return (
-        <>
-            <button className="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">...</button>
-            <button className="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">...</button>
-        </>
-    )
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <FormLogin></FormLogin>
+    </div>
+  )
 }
 
 export default Login
