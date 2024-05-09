@@ -9,7 +9,7 @@ const ApiIam = {
     register: (data: any)=>{
         const url= '/api/v1/iam/register';
         return axiosClient.post(url, data)
-    }
+    } 
 }
 
 export default ApiIam
