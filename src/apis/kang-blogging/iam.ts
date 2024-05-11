@@ -1,4 +1,4 @@
-import { ILoginRequest } from "../../interfaces/request/kang-blogging";
+import { ILoginRequest } from "../../interfaces/request/login_request";
 import axiosClient from "./axios_client";
 
 const ApiIam = {

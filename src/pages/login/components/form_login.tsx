@@ -1,12 +1,32 @@
 import { useState } from 'react'
 import ApiIam from '../../../apis/kang-blogging/iam'
+import { useAppDispatch } from '../../../hooks'
+import { setNotify } from '../../../redux/reducers/notify'
+import {
+  MapAxiosReponseToModelLoginReponse,
+  MapErrorResponse,
+} from '../../../utils/map_data_response'
+import { AxiosError } from 'axios'
 
 const FormLogin = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useAppDispatch()
   const SubmitFormLoginHandler = async () => {
-    const data = await ApiIam.login({ username, password })
-    console.log(data)
+    try {
+      const data = await ApiIam.login({ username, password })
+      const rs = MapAxiosReponseToModelLoginReponse(data)
+      console.log(rs)
+    } catch (error) {
+      const rs = MapErrorResponse((error as AxiosError).response)
+      dispatch(
+        setNotify({
+          title: rs.message,
+          description: '',
+          mustShow: true,
+        }),
+      )
+    }
   }
 
   return (
