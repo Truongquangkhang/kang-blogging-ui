@@ -9,3 +9,11 @@ export interface ILoginResponse {
         userInfo: IUSerMetadata
     }
 } 
+
+export interface ICheckExistUserResponse {
+    code: number
+    message: string
+    data: {
+        alreadyExist: boolean
+    }
+}

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios"
-import { ILoginResponse } from "../interfaces/response/login_response"
+import { ICheckExistUserResponse, ILoginResponse } from "../interfaces/response/iam_response"
 import { IErrorResponse } from "../interfaces/response/error_response"
 
 export const MapErrorResponse = (response?: AxiosResponse) => {
@@ -26,6 +26,17 @@ export const MapAxiosReponseToModelLoginReponse = (response: AxiosResponse) =>{
                 totalBlogs: response.data.data.userInfo.totalBlogs,
                 avatar: response.data.data.userInfo.avatar,
             }
+        }
+    }
+    return rs
+}
+
+export const MapAxiosReponseToModelCheckExistuser = (response: AxiosResponse) =>{
+    const rs: ICheckExistUserResponse = {
+        code: response.data.code,
+        message: response.data.message,
+        data: {
+            alreadyExist: response.data.data.alreadyExist
         }
     }
     return rs
