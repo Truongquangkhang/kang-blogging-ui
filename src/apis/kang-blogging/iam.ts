@@ -1,4 +1,4 @@
-import { ILoginRequest } from "../../interfaces/request/login_request";
+import { ILoginRequest, IRegisterRequest } from "../../interfaces/request/iam_request";
 import axiosClient from "./axios_client";
 
 const ApiIam = {
@@ -6,10 +6,14 @@ const ApiIam = {
        const url = '/api/v1/iam/login';
        return axiosClient.post(url, data)
     },
-    register: (data: any)=>{
+    register: (data: IRegisterRequest)=>{
         const url= '/api/v1/iam/register';
         return axiosClient.post(url, data)
-    } 
+    },
+    checkExistUsername: (username: string)=>{
+        const url= `/api/v1/iam/check-exist-username?username=${username}`;
+        return axiosClient.get(url)
+    }  
 }
 
 export default ApiIam
