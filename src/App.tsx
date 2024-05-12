@@ -9,8 +9,6 @@ function App() {
   const notifyStates = useAppSelector((state) => state.notify)
   const authStates = useAppSelector((state) => state.auth)
   const userStates = useAppSelector((state) => state.user)
-  console.log(authStates)
-  console.log(userStates)
 
   return (
     <>
@@ -30,11 +28,5 @@ function App() {
     </>
   )
 }
-
-// const getCurrentStates = () => {
-//   const [auth, setAuth] = useLocalStorage('auth')
-//   const [user, setUser] = useLocalStorage('user')
-//   console.log(auth.a)
-// }
 
 export default App

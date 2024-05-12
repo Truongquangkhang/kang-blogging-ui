@@ -50,7 +50,13 @@ const Header = ({ isLogin, user }: Props) => {
 }
 
 const renderComponentAvatar = (isLogin: boolean, user: IUSerMetadata | undefined) => {
-  if (!isLogin && user == null) {
+  if (isLogin && user != null) {
+    return (
+      <div className="mr-4 justify-end  cursor-pointer">
+        <Avatar user={user} />
+      </div>
+    )
+  } else {
     return (
       <div className="mr-2">
         <a
@@ -63,12 +69,6 @@ const renderComponentAvatar = (isLogin: boolean, user: IUSerMetadata | undefined
           className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-900 hover:bg-white mt-4 lg:mt-0">
           Sign In
         </a>
-      </div>
-    )
-  } else {
-    return (
-      <div className="mr-4 justify-end  cursor-pointer">
-        <Avatar user={user} />
       </div>
     )
   }
