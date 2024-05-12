@@ -1,4 +1,4 @@
-import { ILoginRequest } from "../../interfaces/request/kang-blogging";
+import { ILoginRequest } from "../../interfaces/request/login_request";
 import axiosClient from "./axios_client";
 
 const ApiIam = {
@@ -9,7 +9,7 @@ const ApiIam = {
     register: (data: any)=>{
         const url= '/api/v1/iam/register';
         return axiosClient.post(url, data)
-    }
+    } 
 }
 
 export default ApiIam

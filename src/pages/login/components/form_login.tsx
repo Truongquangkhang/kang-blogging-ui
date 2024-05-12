@@ -1,12 +1,42 @@
 import { useState } from 'react'
 import ApiIam from '../../../apis/kang-blogging/iam'
+import { useAppDispatch } from '../../../hooks'
+import { setNotify } from '../../../redux/reducers/notify'
+import {
+  MapAxiosReponseToModelLoginReponse,
+  MapErrorResponse,
+} from '../../../utils/map_data_response'
+import { AxiosError } from 'axios'
+import { setAuth } from '../../../redux/reducers/auth'
+import { setUser } from '../../../redux/reducers/user'
 
 const FormLogin = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useAppDispatch()
   const SubmitFormLoginHandler = async () => {
-    const data = await ApiIam.login({ username, password })
-    console.log(data)
+    try {
+      const data = await ApiIam.login({ username, password })
+      const rs = MapAxiosReponseToModelLoginReponse(data)
+      dispatch(
+        setAuth({
+          isLogin: true,
+          accessToken: rs.data.accessToken,
+          refreshToken: rs.data.refreshToken,
+        }),
+      )
+      dispatch(setUser(rs.data.userInfo))
+      console.log(rs)
+    } catch (error) {
+      const rs = MapErrorResponse((error as AxiosError).response)
+      dispatch(
+        setNotify({
+          title: rs.message,
+          description: '',
+          mustShow: true,
+        }),
+      )
+    }
   }
 
   return (
@@ -42,11 +72,11 @@ const FormLogin = () => {
             onClick={SubmitFormLoginHandler}>
             Sign In
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#">
-            Forgot Password?
-          </a>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button">
+            Sign Up
+          </button>
         </div>
       </form>
       <p className="text-center text-gray-500 text-xs">
