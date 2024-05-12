@@ -16,7 +16,6 @@ const notifySlice = createSlice({
       state.mustShow = action.payload.mustShow
       state.description = action.payload.description
       state.title = action.payload.title
-      console.log("TTTTTTT")
     },
   },
 })

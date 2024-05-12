@@ -7,10 +7,18 @@ import { PopupError } from './components/popup/popup_errors'
 
 function App() {
   const notifyStates = useAppSelector((state) => state.notify)
+  const authStates = useAppSelector((state) => state.auth)
+  const userStates = useAppSelector((state) => state.user)
+  console.log(authStates)
+  console.log(userStates)
+
   return (
     <>
       <div className="fixed w-full top-0 left-0">
-        <Header />
+        <Header
+          isLogin={authStates.isLogin}
+          user={userStates.user}
+        />
       </div>
       <div className="fixed top-0 right-0 mt-20 mr-4">
         <PopupError notify={notifyStates} />
@@ -22,5 +30,11 @@ function App() {
     </>
   )
 }
+
+// const getCurrentStates = () => {
+//   const [auth, setAuth] = useLocalStorage('auth')
+//   const [user, setUser] = useLocalStorage('user')
+//   console.log(auth.a)
+// }
 
 export default App

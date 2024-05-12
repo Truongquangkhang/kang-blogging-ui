@@ -1,10 +1,12 @@
-import  counterSlice  from './../reducers/iam';
 import notifySlice from './../reducers/notify'
+import authSlice from './../reducers/auth'
+import userSlice from './../reducers/user'
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice,
+        auth: authSlice,
+        user: userSlice,
         notify: notifySlice
     }
 })
