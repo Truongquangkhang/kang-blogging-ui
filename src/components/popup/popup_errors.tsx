@@ -3,12 +3,6 @@ import { INotify } from '../../interfaces/model/notify'
 import { useAppDispatch } from '../../hooks'
 import { setNotify } from '../../redux/reducers/notify'
 
-export enum TypeStatusNotification {
-  'success',
-  'error',
-  'warning',
-}
-
 interface Props {
   notify: INotify
 }

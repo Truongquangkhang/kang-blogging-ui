@@ -9,8 +9,10 @@ import {
 import { AxiosError } from 'axios'
 import { setAuth } from '../../../redux/reducers/auth'
 import { setUser } from '../../../redux/reducers/user'
+import { useNavigate } from 'react-router-dom'
 
 const FormLogin = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
@@ -26,7 +28,7 @@ const FormLogin = () => {
         }),
       )
       dispatch(setUser(rs.data.userInfo))
-      console.log(rs)
+      navigate('/')
     } catch (error) {
       const rs = MapErrorResponse((error as AxiosError).response)
       dispatch(
@@ -56,26 +58,20 @@ const FormLogin = () => {
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
           <input
-            className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
             placeholder="******************"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <p className="text-red-500 text-xs italic">Please choose a password.</p>
         </div>
         <div className="flex items-center justify-between">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={SubmitFormLoginHandler}>
             Sign In
-          </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button">
-            Sign Up
           </button>
         </div>
       </form>
