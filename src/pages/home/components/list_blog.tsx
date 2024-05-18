@@ -48,7 +48,7 @@ const ListBlog = () => {
         <div className="flex justify-center">
           <Pagination
             totalItem={totalItems}
-            itemPerPage={10}
+            itemPerPage={PAGE_SIZE}
             currentPage={page}
             setCurrentPage={setPage}
           />
