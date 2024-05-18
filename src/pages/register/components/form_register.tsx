@@ -102,7 +102,7 @@ const FormRegister = () => {
   }
 
   return (
-    <div className="w-1/3 text-left">
+    <div className="w-1/2 text-left">
       <form className=" bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
