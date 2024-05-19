@@ -1,3 +1,4 @@
+import { Navigate, useNavigate } from 'react-router-dom'
 import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 
 interface Prods {
@@ -5,6 +6,10 @@ interface Prods {
 }
 
 const BlogDetail = ({ blog }: Prods) => {
+  const navigate = useNavigate()
+  const RedirectToBlogInfo = (id: string) => {
+    navigate(`/blog/${id}`)
+  }
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
       <div className="md:flex">
@@ -31,7 +36,12 @@ const BlogDetail = ({ blog }: Prods) => {
                 )
               })}
             </div>
-            <div className="text-gray-900 font-bold text-base mb-2 text-left cursor-pointer hover:text-blue-900">
+            <div
+              className="text-gray-900 font-bold text-base mb-2 text-left cursor-pointer hover:text-blue-900"
+              onClick={() => {
+                console.log('Here')
+                RedirectToBlogInfo(blog.id)
+              }}>
               {blog.name}
             </div>
             <p className="text-gray-700 text-sm text-left">{blog.description}</p>
