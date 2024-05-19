@@ -34,9 +34,9 @@ const Blog = () => {
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <img
             src={blog?.blogInfo.thumbnail}
-            style={{ aspectRatio: 'auto 1000 / 200' }}
+            style={{ aspectRatio: '1000 / 420' }}
             width="1000"
-            height="200"
+            height="420"
             alt={blog?.blogInfo.name}
           />
         </div>

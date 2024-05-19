@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 
 interface Prods {
