@@ -18,25 +18,27 @@ const BlogDetail = ({ blog }: Prods) => {
         <div className=" bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div className="mb-8">
             <div className="flex mb-2 justify-start">
-              <a
-                href="#"
-                className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">
-                Badge link
-              </a>
-              <a
-                href="#"
-                className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">
-                Badge link
-              </a>
+              {blog.categories.map((category, index) => {
+                if (index == 5) {
+                  return
+                }
+                return (
+                  <a
+                    key={category.id}
+                    className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
+                    {category.name}
+                  </a>
+                )
+              })}
             </div>
-            <div className="text-gray-900 font-bold text-base mb-2 text-left">
+            <div className="text-gray-900 font-bold text-base mb-2 text-left cursor-pointer hover:text-blue-900">
               {blog.name}
             </div>
             <p className="text-gray-700 text-sm text-left">{blog.description}</p>
           </div>
           <div className="flex items-center">
             <img
-              className="w-10 h-10 rounded-full mr-4"
+              className="w-10 h-10 rounded-full mr-2"
               src={blog.author.avatar ?? ''}
               alt={blog.author.displayName}
             />
