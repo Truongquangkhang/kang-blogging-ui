@@ -3,6 +3,7 @@ import { BlogContent } from './components/blog_content'
 import ApiBlog from '../../apis/kang-blogging/blog'
 import { useEffect, useState } from 'react'
 import { IBlog } from '../../interfaces/model/blog_info'
+import { ListComment } from './components/list_comment'
 
 const Blog = () => {
   const { id } = useParams()
@@ -23,14 +24,14 @@ const Blog = () => {
     if (id != null) {
       fetchBlogByID(id)
     }
-  })
+  }, [id])
 
   if (isLoading) {
     return <p>Is Loading</p>
   }
   return (
-    <div className="flex space-x-10">
-      <div className="w-4/5  bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="flex space-x-5 pb-5">
+      <div className="w-4/5  bg-white rounded-xl shadow-md overflow-hidden pb-2">
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <img
             src={blog?.blogInfo.thumbnail}
@@ -70,6 +71,9 @@ const Blog = () => {
         </div>
         <div className="flex-col text-left pt-10 pr-20 pl-20 space-y-5">
           <BlogContent content={blog?.content ?? ''} />
+        </div>
+        <div>
+          <ListComment blogID={id ?? ''} />
         </div>
       </div>
       <div className="w-1/5  bg-white rounded-xl shadow-md overflow-hidden">
