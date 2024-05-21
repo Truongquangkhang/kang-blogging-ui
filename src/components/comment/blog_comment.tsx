@@ -25,8 +25,10 @@ export const BlogComment = ({ comment }: Props) => {
           </div>
           <ButtonSettingComment />
         </footer>
-        <div className="border border-gray-200 rounded-md">
-          <p className="text-gray-500 pt-5 pb-5">{comment.comment.content}</p>
+        <div className="border border-gray-200 rounded-md bg-gray-100">
+          <p className="text-gray-500 pt-5 pb-5 text-left ml-10">
+            {comment.comment.content}
+          </p>
         </div>
 
         <div className="flex items-center mt-4 space-x-4">
@@ -86,8 +88,8 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
         </div>
         <ButtonSettingComment />
       </footer>
-      <div className="border border-gray-200 rounded-md">
-        <p className="text-gray-500 pt-5 pb-5">{comment.content}</p>
+      <div className="border border-gray-200 rounded-md  bg-gray-100">
+        <p className="text-gray-500 pt-5 pb-5 text-left ml-10">{comment.content}</p>
       </div>
     </article>
   )

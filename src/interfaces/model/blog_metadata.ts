@@ -9,4 +9,5 @@ export interface IBlogMetadata {
     thumbnail: string
     createdAt: number
     author: IUSerMetadata
+    totalBlogComments: number
 }

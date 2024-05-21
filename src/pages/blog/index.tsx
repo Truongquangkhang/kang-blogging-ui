@@ -36,8 +36,7 @@ const Blog = () => {
           <img
             src={blog?.blogInfo.thumbnail}
             style={{ aspectRatio: '1000 / 420' }}
-            width="1000"
-            height="420"
+            className="w-full"
             alt={blog?.blogInfo.name}
           />
         </div>

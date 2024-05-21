@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
+import { AiOutlineMessage } from 'react-icons/ai'
 
 interface Prods {
   blog: IBlogMetadata
@@ -46,25 +47,31 @@ const BlogDetail = ({ blog }: Prods) => {
             </div>
             <p className="text-gray-700 text-sm text-left">{blog.description}</p>
           </div>
-          <div className="flex items-center">
-            <img
-              className="w-10 h-10 rounded-full mr-2"
-              src={blog.author.avatar ?? ''}
-              alt={blog.author.displayName}
-            />
-            <div className="flex-col space-y-2 text-xs justify-center">
-              <p className="text-gray-900 leading-none">{blog.author.name}</p>
-              <span className="bg-gray-300 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 border-gray-500 ">
-                <svg
-                  className="w-2.5 h-2.5 me-1.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20">
-                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
-                </svg>
-                3 days ago
-              </span>
+          <div className="flex justify-between max-w-96 min-w-96 mx-5 items-center">
+            <div className="flex items-center">
+              <img
+                className="w-10 h-10 rounded-full mr-2"
+                src={blog.author.avatar ?? ''}
+                alt={blog.author.displayName}
+              />
+              <div className="flex-col space-y-2 text-xs justify-center">
+                <p className="text-gray-900 leading-none">{blog.author.name}</p>
+                <span className="bg-gray-300 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 border-gray-500 ">
+                  <svg
+                    className="w-2.5 h-2.5 me-1.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                  </svg>
+                  3 days ago
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1 cursor-pointer">
+              <AiOutlineMessage />
+              <span className="text-xs">{blog.totalBlogComments}</span>
             </div>
           </div>
         </div>
