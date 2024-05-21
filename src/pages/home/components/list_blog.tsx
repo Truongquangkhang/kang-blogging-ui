@@ -6,9 +6,6 @@ import { Pagination } from '../../../components/pagination/pagination'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
-interface Prods {
-  listBlogs: string
-}
 
 const ListBlog = () => {
   const [listBlogs, setListBlogs] = useState<IBlogMetadata[]>([])
