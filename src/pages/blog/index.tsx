@@ -4,6 +4,7 @@ import ApiBlog from '../../apis/kang-blogging/blog'
 import { useEffect, useState } from 'react'
 import { IBlog } from '../../interfaces/model/blog_info'
 import { ListComment } from './components/list_comment'
+import { CardProfile } from './components/card_profile'
 
 const Blog = () => {
   const { id } = useParams()
@@ -75,11 +76,10 @@ const Blog = () => {
           <ListComment blogID={id ?? ''} />
         </div>
       </div>
-      <div className="w-1/5  bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="text-left font-semibold text-xl tracking-tight mb-5">
-          <p>Categories</p>
+      <div className="w-1/5  bg-white">
+        <div className="flex flex-col pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5  rounded-xl shadow-md overflow-hidden">
+          <CardProfile user_id={blog?.blogInfo.author.id ?? ''} />
         </div>
-        <div className="justify-start"></div>
       </div>
     </div>
   )
