@@ -19,19 +19,19 @@ const Router = createBrowserRouter([
         path: '/blog/:id',
         element: <Blog />,
       },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/logout',
-        element: <LogOut />,
-      },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/logout',
+    element: <LogOut />,
   },
   {
     path: '*',
