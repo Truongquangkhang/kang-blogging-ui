@@ -32,7 +32,7 @@ const Blog = () => {
   }
   return (
     <div className="flex space-x-5 pb-5">
-      <div className="w-4/5  bg-white rounded-xl shadow-md overflow-hidden pb-2">
+      <div className="w-3/4 bg-white rounded-xl shadow-md overflow-hidden pb-2">
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <img
             src={blog?.blogInfo.thumbnail}
@@ -76,10 +76,8 @@ const Blog = () => {
           <ListComment blogID={id ?? ''} />
         </div>
       </div>
-      <div className="w-1/5  bg-white">
-        <div className="flex flex-col pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5  rounded-xl shadow-md overflow-hidden">
-          <CardProfile user_id={blog?.blogInfo.author.id ?? ''} />
-        </div>
+      <div className="w-1/4 bg-white">
+        <CardProfile user_id={blog?.blogInfo.author.id ?? ''} />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
-import { GetBlogsRequest } from "../../interfaces/request/blog_request";
-import { GetBlogByID, GetBlogsResponse } from "../../interfaces/response/blog_response";
+import { CreateBlogRequest, GetBlogsRequest } from "../../interfaces/request/blog_request";
+import { CreateBlogResponse, GetBlogByID, GetBlogsResponse } from "../../interfaces/response/blog_response";
 import axiosClient from "./axios_client";
 
 const ApiBlog = {
@@ -10,7 +10,16 @@ const ApiBlog = {
     getBlogById:(id: string) => {
         const url = `/api/v1/blog/${id}`;
         return axiosClient.get<GetBlogByID>(url)
-    } 
+    },
+    createBlog: (params: CreateBlogRequest, access_token: string) =>{
+        const url = '/api/v1/create-blog';
+        return axiosClient.post<CreateBlogResponse>(url, params, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        }, )
+    }
+
 }
 
 
