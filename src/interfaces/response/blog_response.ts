@@ -18,3 +18,11 @@ export interface GetBlogByID {
         blog: IBlog
     }
 }
+
+export interface CreateBlogResponse{
+    code: number
+    message: string
+    data: {
+        blog: IBlog
+    }
+}

@@ -3,3 +3,8 @@ export interface GetBlogCommentsRequest {
     pageSize: number
     blog_id: string
 }
+
+export interface CreateBlogCommentRequest {
+    content: string
+    reply_comment_id?: string | null
+}

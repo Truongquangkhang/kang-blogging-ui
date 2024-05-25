@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
 import { Avatar } from '../avatar'
 
@@ -50,9 +51,17 @@ const Header = ({ isLogin, user }: Props) => {
 }
 
 const renderComponentAvatar = (isLogin: boolean, user: IUSerMetadata | undefined) => {
+  const navigate = useNavigate()
   if (isLogin && user != null) {
     return (
-      <div className="mr-4 justify-end  cursor-pointer">
+      <div className="flex space-x-4 mr-4 justify-end  cursor-pointer">
+        <a
+          onClick={() => {
+            navigate('/blog/create')
+          }}
+          className="inline-block text-sm px-4 py-2 items-center leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-900 hover:bg-white mt-4 lg:mt-0">
+          Create Blog
+        </a>
         <Avatar user={user} />
       </div>
     )

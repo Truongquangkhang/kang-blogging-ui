@@ -6,6 +6,7 @@ import LogOut from './logout/index.tsx'
 import Register from './register/index.tsx'
 import LayOut from './layout/layout.tsx'
 import Blog from './blog/index.tsx'
+import CreateBlog from './create-blog/index.tsx'
 const Router = createBrowserRouter([
   {
     path: '/',
@@ -20,18 +21,22 @@ const Router = createBrowserRouter([
         element: <Blog />,
       },
       {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/logout',
-        element: <LogOut />,
+        path: '/blog/create',
+        element: <CreateBlog />,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/logout',
+    element: <LogOut />,
   },
   {
     path: '*',

@@ -1,11 +1,15 @@
-import Markdown from 'react-markdown'
 import { IComment, ICommentWithReplies } from '../../interfaces/model/comment'
+import { useState } from 'react'
+import { CreateBlogCommentRequest } from '../../interfaces/request/comment_request'
 
 interface Props {
   comment: ICommentWithReplies
+  replyTheComment: any
 }
 
-export const BlogComment = ({ comment }: Props) => {
+export const BlogComment = ({ comment, replyTheComment }: Props) => {
+  const [isShowTextBox, setIsShowTextBox] = useState(false)
+  const [yourComment, setYourComment] = useState('')
   return (
     <div>
       <article className="p-6 text-base bg-white rounded-lg">
@@ -31,10 +35,15 @@ export const BlogComment = ({ comment }: Props) => {
           </p>
         </div>
 
-        <div className="flex items-center mt-4 space-x-4">
+        <div className="flex-col items-center mt-4 space-x-4">
           <button
             type="button"
-            className="flex items-center text-sm text-gray-500 hover:underline  font-medium">
+            onClick={() => {
+              setIsShowTextBox(true)
+            }}
+            className={`absolute: ${
+              !isShowTextBox ? 'block' : 'hidden'
+            } flex items-center text-sm text-gray-500 hover:underline  font-medium`}>
             <svg
               className="mr-1.5 w-3.5 h-3.5"
               aria-hidden="true"
@@ -51,6 +60,47 @@ export const BlogComment = ({ comment }: Props) => {
             </svg>
             Reply
           </button>
+          <form className={`absolute: ${isShowTextBox ? 'block' : 'hidden'} mb-6`}>
+            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
+              <label className="sr-only">Your comment</label>
+              <textarea
+                id="comment"
+                value={yourComment}
+                onChange={(e) => {
+                  setYourComment(e.target.value)
+                }}
+                rows={6}
+                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
+                placeholder="Write a comment..."
+                required></textarea>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                type="button"
+                onClick={() => {
+                  if (yourComment != '') {
+                    var request: CreateBlogCommentRequest = {
+                      content: yourComment,
+                      reply_comment_id: comment.comment.id,
+                    }
+                    replyTheComment(request)
+                    setIsShowTextBox(false)
+                    setYourComment('')
+                  }
+                }}
+                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-blue-400   text-white rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-700">
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsShowTextBox(false)
+                }}
+                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-gray-300 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-gray-400">
+                Dismiss
+              </button>
+            </div>
+          </form>
         </div>
       </article>
       {comment.replies.map((reply) => {
