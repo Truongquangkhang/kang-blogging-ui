@@ -1,10 +1,11 @@
 export interface GetBlogsRequest {
     page: number
     pageSize: number
-    searchBy?: string
-    searchName?: string
+    searchBy?: string | null
+    searchName?: string | null
     authorIds?: string
     categoryIds?: string
+    sortBy?: string | null
 }
 
 export interface CreateBlogRequest {

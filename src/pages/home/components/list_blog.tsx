@@ -7,7 +7,14 @@ import { Pagination } from '../../../components/pagination/pagination'
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
 
-const ListBlog = () => {
+export interface Props {
+  SearchBy?: string | null
+  SearchName?: string | null
+  CategoryIds?: string
+  SortBy?: string | null
+}
+
+const ListBlog = (prop: Props) => {
   const [listBlogs, setListBlogs] = useState<IBlogMetadata[]>([])
   const [page, setPage] = useState(INITIAL_PAGE)
   const [totalItems, setTotalItems] = useState(0)
@@ -16,7 +23,14 @@ const ListBlog = () => {
   useEffect(() => {
     {
       console.log('Call api getBlogs at here')
-      ApiBlog.getBlogs({ page: page, pageSize: PAGE_SIZE })
+      ApiBlog.getBlogs({
+        page: page,
+        pageSize: PAGE_SIZE,
+        searchBy: prop.SearchBy,
+        searchName: prop.SearchName,
+        categoryIds: prop.CategoryIds,
+        sortBy: prop.SortBy,
+      })
         .then((rs) => {
           setListBlogs(rs.data.data.blogs)
           setPage(rs.data.data.pagination.page)
@@ -27,7 +41,7 @@ const ListBlog = () => {
           console.log(err)
         })
     }
-  }, [page])
+  }, [page, prop])
 
   if (isLoading) {
     return <p>Is Loading ...</p>

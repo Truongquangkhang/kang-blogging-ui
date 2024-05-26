@@ -10,8 +10,10 @@ import { useNavigate } from 'react-router-dom'
 import { setNotify } from '../../redux/reducers/notify'
 import ApiBlog from '../../apis/kang-blogging/blog'
 import { MapErrorResponse } from '../../utils/map_data_response'
+import ImageUploader from '../../components/upload_image'
 
 const CreateBlog = () => {
+  const [imageSrc, setImageSrc] = useState('')
   const [value, setValue] = useState('**Hello world!!!**')
   const [title, setTitle] = useState('')
   const [categories, setCategories] = useState<ICategory[]>([])
@@ -28,8 +30,7 @@ const CreateBlog = () => {
           description: title,
           category_ids: selectedCategories.map((cate) => cate.id),
           content: value,
-          thumbnail:
-            'https://static.wixstatic.com/media/84b06e_5995423794034ffb9e898152c2f8c9e5~mv2.png/v1/fill/w_924,h_528,al_c,q_90,enc_auto/84b06e_5995423794034ffb9e898152c2f8c9e5~mv2.png',
+          thumbnail: imageSrc,
         },
         authStates.accessToken ?? '',
       )
@@ -69,11 +70,10 @@ const CreateBlog = () => {
       <h1 className="text-2xl font-bold">Create blog</h1>
       <div className="mt-10 flex flex-col space-y-5">
         <div>
-          <button
-            type="button"
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-gray-300 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-gray-400">
-            Upload a cover image
-          </button>
+          <ImageUploader
+            imageSrc={imageSrc}
+            setImageSrc={setImageSrc}
+          />
         </div>
         <div>
           <input
