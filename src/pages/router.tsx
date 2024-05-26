@@ -7,6 +7,9 @@ import Register from './register/index.tsx'
 import LayOut from './layout/layout.tsx'
 import Blog from './blog/index.tsx'
 import CreateBlog from './create-blog/index.tsx'
+import FilterBlogs from './filter-blog/index.tsx'
+import Category from './category/index.tsx'
+
 const Router = createBrowserRouter([
   {
     path: '/',
@@ -17,12 +20,20 @@ const Router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/blog',
+        element: <FilterBlogs />,
+      },
+      {
         path: '/blog/:id',
         element: <Blog />,
       },
       {
         path: '/blog/create',
         element: <CreateBlog />,
+      },
+      {
+        path: '/category/:id',
+        element: <Category />,
       },
     ],
   },

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 import { AiOutlineMessage } from 'react-icons/ai'
+import { Category } from '../category/category'
 
 interface Prods {
   blog: IBlogMetadata
@@ -12,7 +13,7 @@ const BlogDetail = ({ blog }: Prods) => {
     navigate(`/blog/${id}`)
   }
   return (
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden">
       <div className="md:flex">
         <div className="md:shrink-0">
           <img
@@ -29,11 +30,15 @@ const BlogDetail = ({ blog }: Prods) => {
                   return
                 }
                 return (
-                  <a
-                    key={category.id}
-                    className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
-                    {category.name}
-                  </a>
+                  // <a
+                  //   key={category.id}
+                  //   className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
+                  //   {category.name}
+                  // </a>
+                  <Category
+                    category={category}
+                    key={index}
+                  />
                 )
               })}
             </div>
