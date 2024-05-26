@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import ApiImage from '../../apis/kang-blogging/image'
 
 interface Props {

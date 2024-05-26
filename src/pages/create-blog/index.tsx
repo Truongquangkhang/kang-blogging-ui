@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import MDEditor from '@uiw/react-md-editor'
+import MDEditor, { commands } from '@uiw/react-md-editor'
 import Multiselect from 'multiselect-react-dropdown'
 import '@uiw/react-md-editor/markdown-editor.css'
 import '@uiw/react-markdown-preview/markdown.css'
@@ -11,6 +11,7 @@ import { setNotify } from '../../redux/reducers/notify'
 import ApiBlog from '../../apis/kang-blogging/blog'
 import { MapErrorResponse } from '../../utils/map_data_response'
 import ImageUploader from '../../components/upload_image'
+import ApiImage from '../../apis/kang-blogging/image'
 
 const CreateBlog = () => {
   const [imageSrc, setImageSrc] = useState('')
@@ -21,7 +22,6 @@ const CreateBlog = () => {
   const authStates = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
   const handleCreateBlog = () => {
     if (title != '' && selectedCategories.length > 0) {
       ApiBlog.createBlog(
@@ -40,11 +40,13 @@ const CreateBlog = () => {
         .catch((err) => {
           console.error(err)
           var e = MapErrorResponse(err)
-          setNotify({
-            title: 'occurred an error !!!',
-            description: e.message,
-            mustShow: true,
-          })
+          dispatch(
+            setNotify({
+              title: 'occurred an error !!!',
+              description: e.message,
+              mustShow: true,
+            }),
+          )
         })
     }
   }
@@ -60,6 +62,71 @@ const CreateBlog = () => {
         )
       })
   }, [])
+
+  useEffect(() => {
+    const handlePaste = (event: any) => {
+      const clipboardItems = event.clipboardData.items
+      for (const item of clipboardItems) {
+        if (item.type.startsWith('image/')) {
+          const file = item.getAsFile()
+
+          if (file) {
+            console.log(file)
+            var bodyFormData = new FormData()
+            bodyFormData.append('image', file)
+            ApiImage.uploadImage(bodyFormData)
+              .then((rs) => {
+                //setValue(`${value}\n![image](${rs.data.data.url})`)
+                insertTextAtCursor(`![image](${rs.data.data.url})\n`)
+              })
+              .catch((err) => {
+                var e = MapErrorResponse(err)
+                dispatch(
+                  setNotify({
+                    title: 'occurred an error when upload image',
+                    description: e.message,
+                    mustShow: true,
+                  }),
+                )
+              })
+          }
+        }
+      }
+    }
+
+    const editorElement = document.getElementById('Markdown-Editor')
+    if (editorElement) {
+      editorElement.addEventListener('paste', handlePaste)
+    }
+
+    return () => {
+      if (editorElement) {
+        editorElement.removeEventListener('paste', handlePaste)
+      }
+    }
+  }, [value])
+
+  const insertTextAtCursor = (text: string) => {
+    const editorElement = document.getElementById('Markdown-Editor')
+    if (!editorElement) return
+
+    const textarea = editorElement.querySelector('textarea')
+    if (!textarea) return
+
+    const startPos = textarea.selectionStart
+    const endPos = textarea.selectionEnd
+
+    const newValue =
+      value.substring(0, startPos) + text + value.substring(endPos, value.length)
+
+    setValue(newValue)
+
+    // Set cursor position after the inserted text
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = startPos + text.length
+      textarea.focus()
+    }, 0)
+  }
 
   if (!authStates.isLogin) {
     dispatch(setNotify({ title: 'Please login !!!', description: '', mustShow: true }))
@@ -100,6 +167,7 @@ const CreateBlog = () => {
         </div>
         <div data-color-mode="light">
           <MDEditor
+            id="Markdown-Editor"
             value={value}
             onChange={(e) => {
               setValue(e?.toString() ?? '')
@@ -110,7 +178,6 @@ const CreateBlog = () => {
           <button
             type="button"
             onClick={() => {
-              console.log(selectedCategories)
               handleCreateBlog()
             }}
             className="py-2.5 px-4 w-1/4 mr-2 text-xs font-medium bg-blue-500 text-white rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-900">
