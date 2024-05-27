@@ -11,6 +11,7 @@ import FilterBlogs from './filter-blog/index.tsx'
 import Category from './category/index.tsx'
 import Search from './search/index.tsx'
 import UserProfile from './user_profile/index.tsx'
+import EditProdile from './edit_profile/index.tsx'
 
 const Router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const Router = createBrowserRouter([
       {
         path: '/search',
         element: <Search />,
+      },
+      {
+        path: '/edit-profile',
+        element: <EditProdile />,
       },
     ],
   },
