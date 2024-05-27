@@ -1,6 +1,7 @@
 import { IComment, ICommentWithReplies } from '../../interfaces/model/comment'
 import { useState } from 'react'
 import { CreateBlogCommentRequest } from '../../interfaces/request/comment_request'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   comment: ICommentWithReplies
@@ -10,6 +11,7 @@ interface Props {
 export const BlogComment = ({ comment, replyTheComment }: Props) => {
   const [isShowTextBox, setIsShowTextBox] = useState(false)
   const [yourComment, setYourComment] = useState('')
+  const navigate = useNavigate()
   return (
     <div>
       <article className="p-6 text-base bg-white rounded-lg">
@@ -21,7 +23,13 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
                 src={comment.comment.user.avatar}
                 alt={comment.comment.user.displayName}
               />
-              {comment.comment.user.displayName}
+              <p
+                onClick={() => {
+                  navigate(`/user/${comment.comment.user.id}`)
+                }}
+                className="cursor-pointer hover:text-blue-900">
+                {comment.comment.user.displayName}
+              </p>
             </p>
             <p className="text-sm text-gray-600">
               <time title="February 8th, 2022">Feb. 8, 2022</time>
@@ -120,6 +128,7 @@ interface ReplyCommentProps {
 }
 
 export const ReplyComment = ({ comment }: ReplyCommentProps) => {
+  const navigate = useNavigate()
   return (
     <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg">
       <footer className="flex justify-between items-center mb-2">
@@ -130,7 +139,13 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
               src={comment.user.avatar}
               alt={comment.user.displayName}
             />
-            {comment.user.displayName}
+            <p
+              onClick={() => {
+                navigate(`/user/${comment.user.id}`)
+              }}
+              className="cursor-pointer hover:text-blue-900">
+              {comment.user.displayName}
+            </p>
           </p>
           <p className="text-sm text-gray-600 ">
             <time title="February 12th, 2022">Feb. 12, 2022</time>

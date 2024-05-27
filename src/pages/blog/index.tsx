@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { BlogContent } from './components/blog_content'
 import ApiBlog from '../../apis/kang-blogging/blog'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ const Blog = () => {
   const { id } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [blog, setBlog] = useState<IBlog>()
+  const navigate = useNavigate()
   const fetchBlogByID = (id: string) => {
     ApiBlog.getBlogById(id)
       .then((rs) => {
@@ -48,7 +49,11 @@ const Blog = () => {
               src={blog?.blogInfo.author.avatar}
             />
             <div className="text-left flex-col justify-center">
-              <p className="text-gray-900 leading-none font-semibold text-xs tracking-tigh cursor-pointer hover:text-blue-900">
+              <p
+                onClick={() => {
+                  navigate(`/user/${blog?.blogInfo.author.id}`)
+                }}
+                className="text-gray-900 leading-none font-semibold text-xs tracking-tigh cursor-pointer hover:text-blue-900">
                 {blog?.blogInfo.author.displayName}
               </p>
               <p className="text-sm">{' 3 days ago'}</p>

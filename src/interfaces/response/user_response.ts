@@ -7,7 +7,7 @@ export interface GetUsersResponse {
     code: number
     message: string
     data: {
-        user: IUSerMetadata[]
+        users: IUSerMetadata[]
         pagination: IPagination
     }
 }

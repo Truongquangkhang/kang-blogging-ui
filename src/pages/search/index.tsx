@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import ListBlog from '../home/components/list_blog'
 import ListUsers from './components/list_users'
 import ListCategories from './components/list_categories.'

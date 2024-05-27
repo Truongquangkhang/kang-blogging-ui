@@ -28,7 +28,7 @@ const ListUsers = (prop: Props) => {
         searchName: prop.SearchName,
       })
         .then((rs) => {
-          setListusers(rs.data.data.user)
+          setListusers(rs.data.data.users)
           setPage(rs.data.data.pagination.page)
           setTotalItems(rs.data.data.pagination.total)
           setIsLoading(false)
