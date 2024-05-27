@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import MDEditor, { commands } from '@uiw/react-md-editor'
+import MDEditor from '@uiw/react-md-editor'
 import Multiselect from 'multiselect-react-dropdown'
 import '@uiw/react-md-editor/markdown-editor.css'
 import '@uiw/react-markdown-preview/markdown.css'
@@ -34,7 +34,7 @@ const CreateBlog = () => {
         },
         authStates.accessToken ?? '',
       )
-        .then((rs) => {
+        .then(() => {
           navigate('/')
         })
         .catch((err) => {

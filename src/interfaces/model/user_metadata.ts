@@ -6,4 +6,6 @@ export interface IUSerMetadata {
     totalBlogs: number
     gender: boolean
     avatar?: string
+    description?: string | null
+    totalComments?: number | 0
 }

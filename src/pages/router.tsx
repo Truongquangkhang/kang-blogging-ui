@@ -9,6 +9,7 @@ import Blog from './blog/index.tsx'
 import CreateBlog from './create-blog/index.tsx'
 import FilterBlogs from './filter-blog/index.tsx'
 import Category from './category/index.tsx'
+import Search from './search/index.tsx'
 
 const Router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const Router = createBrowserRouter([
       {
         path: '/category/:id',
         element: <Category />,
+      },
+      {
+        path: '/search/:search_name',
+        element: <Search />,
       },
     ],
   },

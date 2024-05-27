@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
 import { Avatar } from '../avatar'
+import SearchBox from '../search_box'
 
 interface Props {
   isLogin: boolean
@@ -35,7 +36,7 @@ const Header = ({ isLogin, user }: Props) => {
             <a
               href="#responsive-header"
               className="block mt-2 lg:inline-block lg:mt-0 text-white hover:text-teal-400 mr-4 cursor-pointer">
-              Discusstion
+              Discussion
             </a>
             <a
               onClick={() => {
@@ -46,6 +47,9 @@ const Header = ({ isLogin, user }: Props) => {
             </a>
           </div>
         </div>
+      </div>
+      <div className="w-1/3">
+        <SearchBox />
       </div>
       <div className="w-full block flex-grow lg:flex justify-end lg:items-center lg:w-auto">
         <div>{renderComponentAvatar(isLogin, user)}</div>
