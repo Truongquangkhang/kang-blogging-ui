@@ -1,6 +1,6 @@
 export interface GetCategoriesRequest {
     page: number
     pageSize: number
-    searchName?: string
-    sortBy?: string
+    searchName?: string | null
+    sortBy?: string | null
 }

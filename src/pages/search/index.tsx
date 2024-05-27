@@ -1,12 +1,21 @@
 import { useParams, useSearchParams } from 'react-router-dom'
 import ListBlog from '../home/components/list_blog'
 import ListUsers from './components/list_users'
+import ListCategories from './components/list_categories.'
 
 const TabNames = ['Blogs', 'Users', 'Categories', 'Discussions']
 
 const Search = () => {
-  const { search_name } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
+  const search_name = searchParams.get('q')
+  // var currentTab = searchParams.get('tab')
+  // if (currentTab == null) {
+  //   var newSearchParams = searchParams
+  //   searchParams.set('tab', 'Blogs')
+  //   setSearchParams(newSearchParams)
+  //   currentTab = 'Blogs'
+  // }
+
   return (
     <div className="flex space-x-10">
       <div className="max-w-screen-md mx-auto w-1/4">
@@ -61,7 +70,19 @@ const RenderByTab = ({ tab, searchName }: RenderByTabProps) => {
       />
     )
   } else if (tab == 'Users') {
-    return <ListUsers />
+    return (
+      <ListUsers
+        SearchBy={'name'}
+        SearchName={searchName}
+      />
+    )
+  } else if (tab == 'Categories') {
+    return (
+      <ListCategories
+        SearchName={searchName}
+        SortBy={'blog'}
+      />
+    )
   }
   return <></>
 }

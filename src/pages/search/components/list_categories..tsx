@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react'
-import ApiUser from '../../../apis/kang-blogging/user'
-import { IUSerMetadata } from '../../../interfaces/model/user_metadata'
+import CategoryCard from '../../../components/category_card'
+import { ICategory } from '../../../interfaces/model/category'
+import ApiCategory from '../../../apis/kang-blogging/category'
 import { Pagination } from '../../../components/pagination/pagination'
-import UserCard from '../../../components/user_card.ts'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
 
 export interface Props {
-  SearchBy?: string | null
   SearchName?: string | null
+  SortBy?: string | null
 }
 
-const ListUsers = (prop: Props) => {
-  const [listUsers, setListusers] = useState<IUSerMetadata[]>([])
+const ListCategories = (prop: Props) => {
+  const [listCategories, setListCategories] = useState<ICategory[]>([])
   const [page, setPage] = useState(INITIAL_PAGE)
   const [totalItems, setTotalItems] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
-
   useEffect(() => {
     {
       console.log('Call api getBlogs at here')
-      ApiUser.getUsers({
+      ApiCategory.getCategories({
         page: page,
         pageSize: PAGE_SIZE,
-        searchBy: prop.SearchBy,
         searchName: prop.SearchName,
+        sortBy: prop.SortBy,
       })
         .then((rs) => {
-          setListusers(rs.data.data.user)
+          setListCategories(rs.data.data.categories)
           setPage(rs.data.data.pagination.page)
           setTotalItems(rs.data.data.pagination.total)
           setIsLoading(false)
@@ -41,12 +40,16 @@ const ListUsers = (prop: Props) => {
   if (isLoading) {
     return <p>Loading...</p>
   }
-
   return (
     <div>
       <div className="flex-col space-y-3 w-full justify-center border-spacing-20">
-        {listUsers.map((user) => {
-          return <UserCard user={user} />
+        {listCategories.map((cate) => {
+          return (
+            <CategoryCard
+              category={cate}
+              key={cate.id}
+            />
+          )
         })}
 
         <div className="flex justify-center">
@@ -62,4 +65,4 @@ const ListUsers = (prop: Props) => {
   )
 }
 
-export default ListUsers
+export default ListCategories
