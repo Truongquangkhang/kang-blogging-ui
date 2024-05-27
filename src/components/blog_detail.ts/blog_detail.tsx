@@ -17,7 +17,7 @@ const BlogDetail = ({ blog }: Prods) => {
       <div className="md:flex">
         <div className="md:shrink-0">
           <img
-            className="h-48 w-full object-cover md:h-full md:w-52"
+            className="h-48 w-full object-cover md:h-full md:w-64"
             src={blog.thumbnail}
             alt="Modern building architecture"
           />
@@ -60,7 +60,13 @@ const BlogDetail = ({ blog }: Prods) => {
                 alt={blog.author.displayName}
               />
               <div className="flex-col space-y-2 text-xs justify-center">
-                <p className="text-gray-900 leading-none">{blog.author.name}</p>
+                <p
+                  onClick={() => {
+                    navigate(`/user/${blog.author.id}`)
+                  }}
+                  className="text-gray-900 leading-none cursor-pointer hover:text-blue-900 ">
+                  {blog.author.name}
+                </p>
                 <span className="bg-gray-300 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 border-gray-500 ">
                   <svg
                     className="w-2.5 h-2.5 me-1.5"

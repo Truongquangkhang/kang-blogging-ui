@@ -43,7 +43,7 @@ export const ListComment = ({ blogID }: Props) => {
         .then((rs) => {
           addNewComment(rs.data.data.comment, reply_comment_id)
         })
-        .catch((err) => {})
+        .catch(() => {})
     }
   }
 
