@@ -5,7 +5,7 @@ import SearchBox from '../search_box'
 
 interface Props {
   isLogin: boolean
-  user?: IUSerMetadata
+  user?: IUSerMetadata | null
 }
 
 const Header = ({ isLogin, user }: Props) => {
@@ -58,7 +58,7 @@ const Header = ({ isLogin, user }: Props) => {
   )
 }
 
-const renderComponentAvatar = (isLogin: boolean, user: IUSerMetadata | undefined) => {
+const renderComponentAvatar = (isLogin: boolean, user?: IUSerMetadata | null) => {
   const navigate = useNavigate()
   if (isLogin && user != null) {
     return (

@@ -1,51 +1,43 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
+import ListBlog from '../home/components/list_blog'
 
 const Category = () => {
   const { id } = useParams()
-  return (
-    <div className="p-10">
-      <div className="max-w-screen-md mx-auto">
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <p>Catego</p>
-        </div>
-        <div className="bg-white py-2 px-3">
-          <nav className="flex flex-wrap gap-4">
-            <a
-              href="#"
-              className="inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600">
-              {' '}
-              Account{' '}
-            </a>
-            <a
-              href="#"
-              className="inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600">
-              {' '}
-              Settings{' '}
-            </a>
-            <a
-              href="#"
-              className="inline-flex whitespace-nowrap border-b-2 border-transparent border-b-purple-600 py-2 px-3 text-sm font-semibold text-purple-600 transition-all duration-200 ease-in-out">
-              {' '}
-              Orders{' '}
-            </a>
-            <a
-              href="#"
-              className="inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600">
-              {' '}
-              Sales{' '}
-            </a>
-            <a
-              href="#"
-              className="inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-purple-600 hover:text-purple-600">
-              {' '}
-              Suppliers{' '}
-            </a>
-          </nav>
-        </div>
-      </div>
+  const [searchParams, setSearchParams] = useSearchParams()
 
-      <p>Category</p>
-      <p>{id}</p>
+  return (
+    <div className="flex flex-col p-10 space-y-10 items-center">
+      <div
+        className={`flex flex-col w-full items-start rounded-md border border-gray-100 bg-white px-4 py-5 shadow-lg`}>
+        <div className="flex items-center">
+          <span className="radius-default p-2 shrink-0">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              className="crayons-icon"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.784 14l.42-4H4V8h4.415l.525-5h2.011l-.525 5h3.989l.525-5h2.011l-.525 5H20v2h-3.784l-.42 4H20v2h-4.415l-.525 5h-2.011l.525-5H9.585l-.525 5H7.049l.525-5H4v-2h3.784zm2.011 0h3.99l.42-4h-3.99l-.42 4z"></path>
+            </svg>
+          </span>
+          <strong className="ml-2 block text-2xl font-medium cursor-pointer hover:text-blue-900">
+            {searchParams.get('n')}
+          </strong>
+        </div>
+        {/* <div
+          className={`absolute:${
+            searchParams.get('n') != null ? 'block' : 'hidden'
+          } flex mt-3 ml-12 items-start`}>
+          <RiBook2Fill />
+          <strong
+            className={`ml-2 block text-xs font-medium cursor-pointer hover:text-blue-900`}>
+            {searchParams.get('t')}
+          </strong>
+        </div> */}
+      </div>
+      <div className="w-3/4">
+        <ListBlog CategoryIds={id} />
+      </div>
     </div>
   )
 }
