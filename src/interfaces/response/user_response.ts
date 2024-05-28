@@ -18,3 +18,11 @@ export interface GetUserDetailResponse {
         user: IUser
     }
 }
+
+export interface UpdateUserResponse {
+    code: number
+    message: string
+    data: {
+        user: IUSerMetadata
+    }
+}

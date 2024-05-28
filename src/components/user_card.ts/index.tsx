@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
 }
 
 const UserCard = ({ user }: Props) => {
+  const navigate = useNavigate()
   return (
     <div className="flex flex-col  items-start rounded-md border border-gray-100 bg-white px-4 py-3 shadow-lg">
       <div className="flex items-center">
@@ -13,12 +15,20 @@ const UserCard = ({ user }: Props) => {
           src={user.avatar}
           alt="Simon Lewis"
         />
-        <strong className="ml-2 block text-xs font-medium cursor-pointer hover:text-blue-900">
+        <strong
+          onClick={() => {
+            navigate(`/user/${user.id}`)
+          }}
+          className="ml-2 block text-xs font-medium cursor-pointer hover:text-blue-900">
           {user.displayName}
         </strong>
       </div>
       <div>
-        <strong className="ml-12 block text-lg font-medium cursor-pointer hover:text-blue-900">
+        <strong
+          onClick={() => {
+            navigate(`/user/${user.id}`)
+          }}
+          className="ml-12 block text-lg font-medium cursor-pointer hover:text-blue-900">
           {user.name}
         </strong>
       </div>

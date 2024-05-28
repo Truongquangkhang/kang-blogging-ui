@@ -85,13 +85,14 @@ const FormRegister = () => {
       await ApiIam.register(request)
         .then((response) => {
           console.log(response)
+          setOpenPopup(true)
         })
         .catch((error) => {
           const rs = MapErrorResponse((error as AxiosError).response)
           dispatch(
             setNotify({
               title: rs.message,
-              description: '',
+              description: rs.message,
               mustShow: true,
             }),
           )
@@ -248,7 +249,6 @@ const FormRegister = () => {
             type="button"
             onClick={() => {
               handlerClickButtonCreate()
-              setOpenPopup(true)
             }}>
             Create
           </button>

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
-import { GetFromLocalStorageByKey, SetValueToLocalStorageWithKey } from '../../utils/local_storage'
+import { GetFromLocalStorageByKey, RemoveItemByKey, SetValueToLocalStorageWithKey } from '../../utils/local_storage'
 
 interface userState{
-    user?: IUSerMetadata
+    user?: IUSerMetadata | null
 } 
 
 const user = GetFromLocalStorageByKey("user")
@@ -21,8 +21,12 @@ const userSlice = createSlice({
         state.user = action.payload
         SetValueToLocalStorageWithKey("user", action.payload)
     },
+    removeUser(state){
+      state.user = null
+      RemoveItemByKey('user')
+    } 
   },
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, removeUser } = userSlice.actions
 export default userSlice.reducer

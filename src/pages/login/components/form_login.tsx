@@ -18,16 +18,16 @@ const FormLogin = () => {
   const dispatch = useAppDispatch()
   const SubmitFormLoginHandler = async () => {
     try {
-      const data = await ApiIam.login({ username, password })
-      const rs = MapAxiosReponseToModelLoginReponse(data)
+      const rs = await ApiIam.login({ username, password })
+
       dispatch(
         setAuth({
           isLogin: true,
-          accessToken: rs.data.accessToken,
-          refreshToken: rs.data.refreshToken,
+          accessToken: rs.data.data.accessToken,
+          refreshToken: rs.data.data.refreshToken,
         }),
       )
-      dispatch(setUser(rs.data.userInfo))
+      dispatch(setUser(rs.data.data.userInfo))
       navigate('/')
     } catch (error) {
       const rs = MapErrorResponse((error as AxiosError).response)

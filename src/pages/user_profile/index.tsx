@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { FormatTimestampToDate } from '../../utils/convert'
 import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
@@ -6,11 +6,15 @@ import { useEffect, useState } from 'react'
 import ApiUser from '../../apis/kang-blogging/user'
 import { IUser } from '../../interfaces/model/user'
 import BlogDetail from '../../components/blog_detail.ts/blog_detail'
+import { useAppSelector } from '../../hooks'
 
 const UserProfile = () => {
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
   const [isLoading, setIsLoading] = useState(true)
+  const userStates = useAppSelector((state) => state.user)
+  const navigate = useNavigate()
+
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
       setUser(rs.data.data.user)
@@ -23,6 +27,18 @@ const UserProfile = () => {
   return (
     <div className="flex flex-col p-10 justify-center items-center m-10">
       <div className="flex flex-col items-center justify-center w-full rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
+        <div
+          className={`absolute: ${
+            userStates.user?.id == user?.userInfo.id ? 'block' : 'hidden'
+          } flex w-full justify-end mb-2`}>
+          <button
+            onClick={() => {
+              navigate('/edit-profile')
+            }}
+            className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
+            Edit Profile
+          </button>
+        </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
           <img
             className="w-32 h-32 rounded-full"
@@ -78,7 +94,6 @@ const UserProfile = () => {
             )
           })}
         </div>
-        {/* <div className="w-2/3 rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg"></div> */}
       </div>
     </div>
   )
