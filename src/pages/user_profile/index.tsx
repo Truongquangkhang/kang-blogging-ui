@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { FormatTimestampToDate } from '../../utils/convert'
 import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
@@ -13,6 +13,7 @@ const UserProfile = () => {
   const [user, setUser] = useState<IUser>()
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
+  const navigate = useNavigate()
 
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
@@ -30,7 +31,11 @@ const UserProfile = () => {
           className={`absolute: ${
             userStates.user?.id == user?.userInfo.id ? 'block' : 'hidden'
           } flex w-full justify-end mb-2`}>
-          <button className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
+          <button
+            onClick={() => {
+              navigate('/edit-profile')
+            }}
+            className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
             Edit Profile
           </button>
         </div>

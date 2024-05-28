@@ -8,3 +8,13 @@ export interface GetUsersRequest {
 export interface GetUserDetailRequest {
     
 }
+
+export interface UpdateUserRequest {
+    name?: string | null
+    email?: string | null
+    displayName?: string | null
+    avatar?: string | null 
+    phoneNumber?: string | null
+    gender?: boolean | null
+    description?: string | null
+}
