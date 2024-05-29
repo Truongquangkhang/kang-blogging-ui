@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import ListBlog from '../home/components/list_blog'
 import ListUsers from './components/list_users'
 import ListCategories from './components/list_categories.'
+import ListComments from '../discussion/components/list_comments'
 
 const TabNames = ['Blogs', 'Users', 'Categories', 'Discussions']
 
@@ -81,6 +82,13 @@ const RenderByTab = ({ tab, searchName }: RenderByTabProps) => {
       <ListCategories
         SearchName={searchName}
         SortBy={'blog'}
+      />
+    )
+  } else if (tab == 'Discussions') {
+    return (
+      <ListComments
+        SearchName={searchName}
+        SortBy={'created_at'}
       />
     )
   }

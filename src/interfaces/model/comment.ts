@@ -13,3 +13,9 @@ export interface ICommentWithReplies {
     comment: IComment
     replies: IComment[]
 }
+
+export interface ICommentItem {
+    commentInfo: IComment
+    blogId: string
+    replyCommentId?: string | null
+}

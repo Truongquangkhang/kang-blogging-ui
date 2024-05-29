@@ -1,4 +1,4 @@
-import { IComment, ICommentWithReplies } from "../model/comment"
+import { IComment, ICommentItem, ICommentWithReplies } from "../model/comment"
 import { IPagination } from "../model/pagination"
 
 export interface GetBlogCommentsResponse {
@@ -15,5 +15,14 @@ export interface CreateBlogCommentResponse {
     message: string
     data: {
         comment: IComment
+    }
+}
+
+export interface GetCommentsByParamResponse {
+    code: number
+    message: string
+    data: {
+        comments: ICommentItem[]
+        pagination: IPagination
     }
 }

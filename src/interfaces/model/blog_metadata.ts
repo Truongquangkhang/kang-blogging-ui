@@ -10,4 +10,5 @@ export interface IBlogMetadata {
     createdAt: number
     author: IUSerMetadata
     totalBlogComments: number
+    updatedAt: number
 }
