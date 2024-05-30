@@ -26,3 +26,11 @@ export interface CreateBlogResponse{
         blog: IBlog
     }
 }
+
+export interface UpdateBlogResponse {
+    code: number
+    message: string
+    data: {
+        blog: IBlog
+    }
+}

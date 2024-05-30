@@ -12,6 +12,8 @@ import Category from './category/index.tsx'
 import Search from './search/index.tsx'
 import UserProfile from './user_profile/index.tsx'
 import EditProdile from './edit_profile/index.tsx'
+import EditBlog from './edit_blog/index.tsx'
+import Discussion from './discussion/index.tsx'
 
 const Router = createBrowserRouter([
   {
@@ -31,6 +33,10 @@ const Router = createBrowserRouter([
         element: <Blog />,
       },
       {
+        path: '/blog/:id/edit',
+        element: <EditBlog />,
+      },
+      {
         path: '/blog/create',
         element: <CreateBlog />,
       },
@@ -41,6 +47,10 @@ const Router = createBrowserRouter([
       {
         path: '/category/:id',
         element: <Category />,
+      },
+      {
+        path: '/discussion',
+        element: <Discussion />,
       },
       {
         path: '/search',

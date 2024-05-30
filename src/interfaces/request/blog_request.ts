@@ -15,3 +15,10 @@ export interface CreateBlogRequest {
     thumbnail?: string | null
     content?: string | null
 }
+
+export interface UpdateBlogRequest {
+    name?: string | null
+    thumbnail?: string | null
+    content?: string | null
+    categoryIds?: string[] | null
+}

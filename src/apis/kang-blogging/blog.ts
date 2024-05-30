@@ -1,5 +1,5 @@
-import { CreateBlogRequest, GetBlogsRequest } from "../../interfaces/request/blog_request";
-import { CreateBlogResponse, GetBlogByID, GetBlogsResponse } from "../../interfaces/response/blog_response";
+import { CreateBlogRequest, GetBlogsRequest, UpdateBlogRequest } from "../../interfaces/request/blog_request";
+import { CreateBlogResponse, GetBlogByID, GetBlogsResponse, UpdateBlogResponse } from "../../interfaces/response/blog_response";
 import axiosClient from "./axios_client";
 
 const ApiBlog = {
@@ -18,6 +18,14 @@ const ApiBlog = {
                 Authorization: `Bearer ${access_token}`
             }
         }, )
+    },
+    updateBlog: (blog_id: string, access_token: string, params: UpdateBlogRequest) => {
+        const url = `/api/v1/blog/${blog_id}`;
+        return axiosClient.patch<UpdateBlogResponse>(url, params, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+        })
     }
 
 }

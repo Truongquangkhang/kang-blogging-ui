@@ -1,5 +1,5 @@
-import { CreateBlogCommentRequest, GetBlogCommentsRequest } from "../../interfaces/request/comment_request";
-import { CreateBlogCommentResponse, GetBlogCommentsResponse } from "../../interfaces/response/comment_response";
+import { CreateBlogCommentRequest, GetBlogCommentsRequest, GetCommentsByParamRequest } from "../../interfaces/request/comment_request";
+import { CreateBlogCommentResponse, GetBlogCommentsResponse, GetCommentsByParamResponse } from "../../interfaces/response/comment_response";
 import axiosClient from "./axios_client";
 
 const ApiComment = {
@@ -14,6 +14,10 @@ const ApiComment = {
                 Authorization: `Bearer ${access_token}`
             }
         },)
+    },
+    getCommentsByParam: (params: GetCommentsByParamRequest) => {
+        const url = `/api/v1/comment`
+        return axiosClient.get<GetCommentsByParamResponse>(url, {params: params})
     }
 }
 

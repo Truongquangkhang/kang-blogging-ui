@@ -54,11 +54,11 @@ export const CardProfile = ({ user_id }: Props) => {
             </div>
             <div className="flex flex-col text-left ">
               <p className="font-bold ">Email</p>
-              <p className="text-gray-400">{user?.userInfo.email}</p>
+              <p className="text-gray-400">{user?.email}</p>
             </div>
             <div className="flex flex-col text-left ">
               <p className="font-bold ">Gender</p>
-              <p className="text-gray-400">{user?.userInfo.gender ? 'Male' : 'Female'}</p>
+              <p className="text-gray-400">{user?.gender ? 'Male' : 'Female'}</p>
             </div>
             <div className="flex flex-col text-left ">
               <p className="font-bold ">Total Blogs</p>
@@ -103,6 +103,7 @@ interface BlogShowMoreProps {
 }
 
 const BlogShowMore = ({ blog, callBack }: BlogShowMoreProps) => {
+  const navigate = useNavigate()
   return (
     <div className="flex flex-col space-y-2">
       <p
@@ -119,6 +120,11 @@ const BlogShowMore = ({ blog, callBack }: BlogShowMoreProps) => {
           }
           return (
             <a
+              onClick={() => {
+                navigate(
+                  `/category/${category.id}?n=${category.name}&t=${category.blogCount}`,
+                )
+              }}
               key={category.id}
               className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-1 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
               {category.name}

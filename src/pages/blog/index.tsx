@@ -5,12 +5,15 @@ import { useEffect, useState } from 'react'
 import { IBlog } from '../../interfaces/model/blog_info'
 import { ListComment } from './components/list_comment'
 import { CardProfile } from './components/card_profile'
+import { useAppSelector } from '../../hooks'
+import { Category } from '../../components/category/category'
 
 const Blog = () => {
   const { id } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [blog, setBlog] = useState<IBlog>()
   const navigate = useNavigate()
+  const userState = useAppSelector((state) => state.user)
   const fetchBlogByID = (id: string) => {
     ApiBlog.getBlogById(id)
       .then((rs) => {
@@ -43,33 +46,51 @@ const Blog = () => {
           />
         </div>
         <div className="flex-col text-left pt-5 pr-20 pl-20 space-y-3">
-          <div className="flex space-x-3 items-center">
-            <img
-              className="w-10 h-10 rounded-full mr-2"
-              src={blog?.blogInfo.author.avatar}
-            />
-            <div className="text-left flex-col justify-center">
-              <p
-                onClick={() => {
-                  navigate(`/user/${blog?.blogInfo.author.id}`)
-                }}
-                className="text-gray-900 leading-none font-semibold text-xs tracking-tigh cursor-pointer hover:text-blue-900">
-                {blog?.blogInfo.author.displayName}
-              </p>
-              <p className="text-sm">{' 3 days ago'}</p>
+          <div className="flex w-full justify-between mb-5">
+            <div className="flex space-x-3 items-center">
+              <img
+                className="w-10 h-10 rounded-full mr-2"
+                src={blog?.blogInfo.author.avatar}
+              />
+              <div className="text-left flex-col justify-center">
+                <p
+                  onClick={() => {
+                    navigate(`/user/${blog?.blogInfo.author.id}`)
+                  }}
+                  className="text-gray-900 leading-none font-semibold text-xs tracking-tigh cursor-pointer hover:text-blue-900">
+                  {blog?.blogInfo.author.displayName}
+                </p>
+                <p className="text-sm">{' 3 days ago'}</p>
+              </div>
+            </div>
+            <div
+              className={`absolute: ${
+                blog?.blogInfo.author.id == userState.user?.id ? 'block' : 'hidden'
+              }`}>
+              <button
+                onClick={() => [navigate(`/blog/${id}/edit`)]}
+                type="button"
+                className="py-2.5 px-4 mr-2 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                Edit
+              </button>
             </div>
           </div>
+
           <h1 className="text-4xl font-extrabold tracking-tight">
             {blog?.blogInfo.name}
           </h1>
           <div className="flex space-x-2">
             {blog?.blogInfo.categories.map((cate) => {
               return (
-                <a
+                // <a
+                //   key={cate.id}
+                //   className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
+                //   {cate.name}
+                // </a>
+                <Category
                   key={cate.id}
-                  className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
-                  {cate.name}
-                </a>
+                  category={cate}
+                />
               )
             })}
           </div>

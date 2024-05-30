@@ -2,10 +2,7 @@ import { useState } from 'react'
 import ApiIam from '../../../apis/kang-blogging/iam'
 import { useAppDispatch } from '../../../hooks'
 import { setNotify } from '../../../redux/reducers/notify'
-import {
-  MapAxiosReponseToModelLoginReponse,
-  MapErrorResponse,
-} from '../../../utils/map_data_response'
+import { MapErrorResponse } from '../../../utils/map_data_response'
 import { AxiosError } from 'axios'
 import { setAuth } from '../../../redux/reducers/auth'
 import { setUser } from '../../../redux/reducers/user'
