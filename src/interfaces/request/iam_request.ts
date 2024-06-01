@@ -14,3 +14,4 @@ export interface IRegisterRequest {
     password: string
     avatar?: string
 }
+

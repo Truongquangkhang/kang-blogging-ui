@@ -6,8 +6,8 @@ const LayOut = () => {
   const authStates = useAppSelector((state) => state.auth)
   const userStates = useAppSelector((state) => state.user)
   return (
-    <div className="flex-col items-center">
-      <div className="fixed w-full top-0 left-0">
+    <div className="flex-col items-center bg-gray-100">
+      <div className="fixed w-full top-0 left-0 bg-gray-100">
         <Header
           isLogin={authStates.isLogin}
           user={userStates.user}

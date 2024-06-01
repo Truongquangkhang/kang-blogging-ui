@@ -30,6 +30,8 @@ const ListBlog = (prop: Props) => {
         searchName: prop.SearchName,
         categoryIds: prop.CategoryIds,
         sortBy: prop.SortBy,
+        published: true,
+        isDeprecated: false,
       })
         .then((rs) => {
           setListBlogs(rs.data.data.blogs)
