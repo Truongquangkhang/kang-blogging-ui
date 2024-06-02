@@ -88,6 +88,13 @@ const BlogDetail = ({ blog }: Prods) => {
           </div>
         </div>
       </div>
+
+      <div
+        className={`absolute: ${
+          blog.published ? 'hidden' : 'block'
+        } text-white bg-blue-900`}>
+        Draft
+      </div>
     </div>
   )
 }

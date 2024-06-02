@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react'
 import { IBlog } from '../../interfaces/model/blog_info'
 import { ListComment } from './components/list_comment'
 import { CardProfile } from './components/card_profile'
-import { useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Category } from '../../components/category/category'
+import { setNotify } from '../../redux/reducers/notify'
+import { MapErrorResponse } from '../../utils/map_data_response'
 
 const Blog = () => {
   const { id } = useParams()
@@ -14,6 +16,30 @@ const Blog = () => {
   const [blog, setBlog] = useState<IBlog>()
   const navigate = useNavigate()
   const userState = useAppSelector((state) => state.user)
+  const authStates = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
+
+  const handlerClickPublished = (published: boolean) => {
+    if (blog?.blogInfo.id != undefined && authStates.accessToken != undefined) {
+      ApiBlog.updateBlog(blog?.blogInfo.id, authStates.accessToken, {
+        published: published,
+      })
+        .then((rs) => {
+          setBlog(rs.data.data.blog)
+        })
+        .catch((err) => {
+          const e = MapErrorResponse(err)
+          dispatch(
+            setNotify({
+              title: 'Occurred an error',
+              description: e.message,
+              mustShow: true,
+            }),
+          )
+        })
+    }
+  }
+
   const fetchBlogByID = (id: string) => {
     ApiBlog.getBlogById(id)
       .then((rs) => {
@@ -64,7 +90,7 @@ const Blog = () => {
               </div>
             </div>
             <div
-              className={`absolute: ${
+              className={`flex absolute: ${
                 blog?.blogInfo.author.id == userState.user?.id ? 'block' : 'hidden'
               }`}>
               <button
@@ -73,6 +99,27 @@ const Blog = () => {
                 className="py-2.5 px-4 mr-2 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
                 Edit
               </button>
+              <div>
+                {blog?.blogInfo.published ? (
+                  <button
+                    onClick={() => {
+                      handlerClickPublished(!blog?.blogInfo.published)
+                    }}
+                    type="button"
+                    className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                    Mark Draft
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handlerClickPublished(!blog?.blogInfo.published)
+                    }}
+                    type="button"
+                    className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                    Publish
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 

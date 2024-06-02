@@ -6,6 +6,8 @@ export interface GetBlogsRequest {
     authorIds?: string
     categoryIds?: string
     sortBy?: string | null
+    published?: boolean | null
+    isDeprecated?: boolean | null
 }
 
 export interface CreateBlogRequest {
@@ -21,4 +23,5 @@ export interface UpdateBlogRequest {
     thumbnail?: string | null
     content?: string | null
     categoryIds?: string[] | null
+    published?: boolean | null
 }

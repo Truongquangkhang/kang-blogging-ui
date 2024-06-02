@@ -60,19 +60,19 @@ const Router = createBrowserRouter([
         path: '/edit-profile',
         element: <EditProdile />,
       },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/logout',
+        element: <LogOut />,
+      },
     ],
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/logout',
-    element: <LogOut />,
   },
   {
     path: '*',
