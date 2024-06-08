@@ -67,7 +67,7 @@ const Filter = ({ callBackFilter, categories }: FilterProps) => {
           type="text"
           id="name"
           placeholder="search by title blog"
-          className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-2 block w-full h-full rounded-md border px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
         />
       </div>
       <div className="flex flex-col">
@@ -77,7 +77,7 @@ const Filter = ({ callBackFilter, categories }: FilterProps) => {
           onChange={(e) => {
             setSortBy(e.target.value)
           }}
-          className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          className="mt-2 block w-full h-full rounded-md bg-white border px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
           <option
             selected
             value={'updated_at'}>
@@ -102,7 +102,7 @@ const Filter = ({ callBackFilter, categories }: FilterProps) => {
           onClick={() => {
             callBackFilter(searchName, selectedCategoryIds.join(', '), sortBy)
           }}
-          className="mt-6 rounded-lg bg-blue-900 px-8 py-2 font-medium text-white outline-none hover:opacity-80 focus:ring">
+          className="mt-6 rounded-lg h-full bg-blue-900 px-8 py-2 font-medium text-white outline-none hover:opacity-80 focus:ring">
           Apply
         </button>
       </div>

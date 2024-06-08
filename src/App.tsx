@@ -11,7 +11,7 @@ function App() {
   return (
     <AuthProvider>
       <>
-        <div className="fixed top-0 right-0 mt-20 mr-4">
+        <div className="fixed top-0 right-0 mt-20 mr-4 bg-gray-100">
           <PopupError notify={notifyStates} />
         </div>
         <RouterProvider

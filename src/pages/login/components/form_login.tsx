@@ -72,9 +72,7 @@ const FormLogin = () => {
           </button>
         </div>
       </form>
-      <p className="text-center text-gray-500 text-xs">
-        &copy;2020 Acme Corp. All rights reserved.
-      </p>
+      <p className="text-center text-gray-500 text-xs"></p>
     </div>
   )
 }
