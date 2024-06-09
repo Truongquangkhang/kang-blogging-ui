@@ -149,7 +149,7 @@ const Blog = () => {
           <ListComment blogID={id ?? ''} />
         </div>
       </div>
-      <div className="w-1/4 bg-white">
+      <div className="w-1/4">
         <CardProfile user_id={blog?.blogInfo.author.id ?? ''} />
       </div>
     </div>

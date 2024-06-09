@@ -9,14 +9,6 @@ const TabNames = ['Blogs', 'Users', 'Categories', 'Discussions']
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const search_name = searchParams.get('q')
-  // var currentTab = searchParams.get('tab')
-  // if (currentTab == null) {
-  //   var newSearchParams = searchParams
-  //   searchParams.set('tab', 'Blogs')
-  //   setSearchParams(newSearchParams)
-  //   currentTab = 'Blogs'
-  // }
-
   return (
     <div className="flex space-x-10">
       <div className="max-w-screen-md mx-auto w-1/4">

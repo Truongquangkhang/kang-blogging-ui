@@ -7,7 +7,7 @@ const LayOut = () => {
   const userStates = useAppSelector((state) => state.user)
   return (
     <div className="flex-col items-center bg-gray-100">
-      <div className="fixed w-full top-0 left-0 bg-gray-100">
+      <div className="z-50 fixed w-full top-0 left-0 bg-gray-100">
         <Header
           isLogin={authStates.isLogin}
           user={userStates.user}
