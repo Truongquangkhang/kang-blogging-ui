@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   user?: IUSerMetadata
@@ -8,6 +9,7 @@ interface Props {
 export const Avatar = ({ user }: Props) => {
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -44,15 +46,17 @@ export const Avatar = ({ user }: Props) => {
           open ? 'block' : 'hidden'
         } right-5 z-10 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
         <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-          <div>Bonnie Green</div>
-          <div className="font-medium truncate">name@flowbite.com</div>
+          <div>{user?.name}</div>
+          <div className="font-medium truncate">{user?.displayName}</div>
         </div>
         <ul
           className="py-2 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="avatarButton">
           <li>
             <a
-              href="#"
+              onClick={() => {
+                navigate(`/user/${user?.id}`)
+              }}
               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
               Profile
             </a>

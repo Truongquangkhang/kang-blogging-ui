@@ -28,6 +28,10 @@ export const ListCategory = () => {
       })
   }
 
+  const handlerShowLess = () => {
+    setListCategory(listCategory.slice(0, PAGE_SIZE))
+  }
+
   useEffect(() => {
     fetchCategories(page)
   }, [page])
@@ -45,8 +49,17 @@ export const ListCategory = () => {
       ))}
       <div
         className={`absolute: ${
+          page > 1 ? 'block' : 'hidden'
+        } text-xs text-blue-400 text-center hover:text-blue-800 mt-1 cursor-pointer ml-2 mr-2`}
+        onClick={() => {
+          handlerShowLess()
+        }}>
+        show less ...
+      </div>
+      <div
+        className={`absolute: ${
           totalItems >= page * PAGE_SIZE ? 'block' : 'hidden'
-        } text-xs text-blue-400 text-center hover:text-blue-800 mt-1`}
+        } text-xs text-blue-400 text-center hover:text-blue-800 mt-1 cursor-pointer ml-2 mr-2`}
         onClick={() => {
           setPage(page + 1)
         }}>

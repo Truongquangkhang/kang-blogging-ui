@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Category } from '../../components/category/category'
 import { setNotify } from '../../redux/reducers/notify'
 import { MapErrorResponse } from '../../utils/map_data_response'
+import ThumbnailBlog from '../../assets/thumbnail_blog.webp'
 
 const Blog = () => {
   const { id } = useParams()
@@ -65,7 +66,9 @@ const Blog = () => {
       <div className="w-3/4 bg-white rounded-xl shadow-md overflow-hidden pb-2">
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <img
-            src={blog?.blogInfo.thumbnail}
+            src={
+              blog?.blogInfo.thumbnail == '' ? ThumbnailBlog : blog?.blogInfo.thumbnail
+            }
             style={{ aspectRatio: '1000 / 420' }}
             className="w-full"
             alt={blog?.blogInfo.name}
