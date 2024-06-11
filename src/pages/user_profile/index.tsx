@@ -1,12 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { FormatTimestampToDate } from '../../utils/convert'
+import { FormatRelativeTime, FormatTimestampToDate } from '../../utils/convert'
 import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
+import { PiWarning } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
 import ApiUser from '../../apis/kang-blogging/user'
 import { IUser } from '../../interfaces/model/user'
 import BlogDetail from '../../components/blog_detail.ts/blog_detail'
 import { useAppSelector } from '../../hooks'
+import Loader from '../../common/loader'
 
 const UserProfile = () => {
   const { id } = useParams()
@@ -22,7 +24,7 @@ const UserProfile = () => {
     })
   }, [id])
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
   return (
     <div className="flex flex-col p-10 justify-center items-center m-10">
@@ -70,20 +72,45 @@ const UserProfile = () => {
         </div>
       </div>
       <div className="flex w-full space-x-3 mt-3">
-        <div className="flex-col space-y-3 p-2 w-1/4 rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
-          <div className="flex items-center space-x-4">
-            <RiBook2Line />
-            <strong className="block text-l text-gray-500 font-medium">
-              {user?.userInfo.totalBlogs} posts published
-            </strong>
+        <div className="w-1/4">
+          <div className="flex-col space-y-3 p-2 h-fit rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
+            <div className="flex items-center space-x-4">
+              <RiBook2Line />
+              <strong className="block text-l text-gray-500 font-medium">
+                {user?.userInfo.totalBlogs} posts published
+              </strong>
+            </div>
+            <div className="flex items-center space-x-4">
+              <AiOutlineMessage />
+              <strong className="block text-l text-gray-500 font-medium">
+                {user?.userInfo.totalComments} comments written
+              </strong>
+            </div>
+            <div className="flex items-center space-x-4">
+              <PiWarning />
+              <strong className="block text-l text-gray-500 font-medium">
+                {user?.userInfo.totalViolations} total violated
+              </strong>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <AiOutlineMessage />
-            <strong className="block text-l text-gray-500 font-medium">
-              {10} comments written
-            </strong>
+          <div className="mt-5 flex-col space-y-3 h-fit divide-y rounded-lg border border-gray-100 bg-white px-4 py-5 shadow-lg">
+            {user?.comments.map((comment) => {
+              return (
+                <div
+                  className="mt-3"
+                  key={comment.id}>
+                  <p className="truncate text-gray-500 font-medium text-left">
+                    {comment.content}
+                  </p>
+                  <p className="text-xs text-left">
+                    {FormatRelativeTime(comment.createdAt)}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
+
         <div className="flex flex-col space-y-3 w-3/4">
           {user?.blogs.map((blog) => {
             return (

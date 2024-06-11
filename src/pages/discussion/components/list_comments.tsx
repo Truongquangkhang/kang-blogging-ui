@@ -3,6 +3,7 @@ import { ICommentItem } from '../../../interfaces/model/comment'
 import ApiComment from '../../../apis/kang-blogging/comment'
 import CommentCard from '../../../components/comment_card'
 import { Pagination } from '../../../components/pagination/pagination'
+import Loader from '../../../common/loader'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -39,7 +40,7 @@ const ListComments = (prop: Props) => {
   }, [page, prop])
 
   if (isLoading) {
-    return <p>Is Loading ...</p>
+    return <Loader />
   }
   return (
     <div className="flex flex-col w-full space-y-3">

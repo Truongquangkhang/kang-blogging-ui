@@ -31,7 +31,9 @@ const CommentCard = (prop: Prop) => {
             {prop.comment.replyCommentId == null ? (
               <p
                 onClick={() => {
-                  navigate(`/blog/${prop.comment.blogId}`)
+                  navigate(
+                    `/blog/${prop.comment.blogId}?comment=${prop.comment.commentInfo.id}`,
+                  )
                 }}
                 className="text-xs text-blue-600 cursor-pointer hover:text-blue-900">
                 commented to the post
@@ -39,7 +41,9 @@ const CommentCard = (prop: Prop) => {
             ) : (
               <p
                 onClick={() => {
-                  navigate(`/blog/${prop.comment.blogId}`)
+                  navigate(
+                    `/blog/${prop.comment.blogId}?comment=${prop.comment.replyCommentId}`,
+                  )
                 }}
                 className="text-xs text-blue-600 cursor-pointer hover:text-blue-900">
                 reply to the comment

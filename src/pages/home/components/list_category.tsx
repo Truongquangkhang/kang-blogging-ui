@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Category } from '../../../components/category/category'
 import { ICategory } from '../../../interfaces/model/category'
 import ApiCategory from '../../../apis/kang-blogging/category'
+import Loader from '../../../common/loader'
 
 const PAGE_SIZE = 50
 
@@ -37,7 +38,7 @@ export const ListCategory = () => {
   }, [page])
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
 
   return (
