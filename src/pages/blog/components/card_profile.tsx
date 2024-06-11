@@ -33,8 +33,8 @@ export const CardProfile = ({ user_id }: Props) => {
     return <p>Loading...</p>
   }
   return (
-    <div className="flex flex-col space-y-1">
-      <div className="flex flex-col pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5 rounded-xl shadow-md overflow-hidden">
+    <div className="flex flex-col space-y-1 bg-gray-100">
+      <div className="flex flex-col pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5 bg-white rounded-xl shadow-md overflow-hidden">
         <div className="flex flex-col space-y-5 ml-3 ">
           <div className="flex space-x-3 items-center line-clamp-3">
             <img
@@ -67,17 +67,17 @@ export const CardProfile = ({ user_id }: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5 rounded-xl shadow-md overflow-hidden">
+      <div className="flex flex-col bg-white pt-5 pb-5 text-left font-semibold text-xl tracking-tight mb-5 rounded-xl shadow-md">
         <div className="flex flex-col space-y-5 ml-3 ">
           <div className="flex space-x-3 items-center line-clamp-3">
-            <p className="text-base">More from: </p>
+            <p className="text-base leading-normal">More from: </p>
             <div className="flex-col justify-center">
               <p className="text-gray-900 leading-none font-semibold text-base tracking-tigh cursor-pointer hover:text-blue-900">
                 {user?.userInfo.name}
               </p>
             </div>
           </div>
-          <div className="flex flex-col space-y-5 text-xs justify-start items-start">
+          <div className="flex flex-col space-y-5 divide-y text-xs justify-start items-start">
             {user?.blogs.map((blog) => {
               if (blog.id == id) {
                 return
@@ -105,12 +105,12 @@ interface BlogShowMoreProps {
 const BlogShowMore = ({ blog, callBack }: BlogShowMoreProps) => {
   const navigate = useNavigate()
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 px-2">
       <p
         onClick={() => {
           callBack(blog.id)
         }}
-        className="text-lg hover:text-blue-900 cursor-pointer">
+        className="text-base mt-3 hover:text-blue-900 cursor-pointer">
         {blog.name}
       </p>
       <div className="flex">
