@@ -1,116 +1,58 @@
-import { useState } from 'react'
-import ImageUploader from '../../components/upload_image'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import ApiUser from '../../apis/kang-blogging/user'
-import { setUser } from '../../redux/reducers/user'
-import { useNavigate } from 'react-router-dom'
-import { setNotify } from '../../redux/reducers/notify'
-import { MapErrorResponse } from '../../utils/map_data_response'
+import { useSearchParams } from 'react-router-dom'
+import EditProfile from './components/edit_profile'
+import EditAccount from './components/edit_account'
 
-const EditProfile = () => {
-  const userStates = useAppSelector((state) => state.user)
-  const authStates = useAppSelector((state) => state.auth)
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [avatar, setAvatar] = useState(userStates.user?.avatar ?? '')
-  const [name, setName] = useState(userStates.user?.name)
-  const [displayName, setDisplayName] = useState(userStates.user?.displayName)
-  const [description, setDescription] = useState(userStates.user?.description)
-
-  const handleClickSubmit = () => {
-    if (name != null && displayName != null && description != null && avatar != null) {
-      ApiUser.updateUser(userStates.user?.id ?? '', authStates.accessToken ?? '', {
-        name: name,
-        displayName: displayName,
-        description: description,
-        avatar: avatar,
-      })
-        .then((rs) => {
-          var u = rs.data.data.user
-          console.log(u)
-          dispatch(setUser(u))
-          navigate(`/user/${rs.data.data.user.id}`)
-        })
-        .catch((err) => {
-          console.log(err)
-          var e = MapErrorResponse(err)
-          dispatch(
-            setNotify({
-              title: 'occurred an error !!!',
-              description: e.message,
-              mustShow: true,
-            }),
-          )
-        })
-    } else {
-      dispatch(setNotify({ title: 'Error', description: 'Invalid data', mustShow: true }))
-    }
+const TabNames = ['Profile', 'Account']
+const EditUser = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = searchParams.get('tab')
+  if (tab == null) {
+    searchParams.set('tab', 'Profile')
+    setSearchParams(searchParams)
   }
   return (
-    <div className="flex flex-col space-y-10 w-full p-10 items-center justify-center">
-      <div className="flex-col space-y-3 justify-start w-2/3 rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
-        <label className="text-xl font-bold items-start">User</label>
-        <div className="flex-col space-y-5 mt-5">
-          <div className="flex-col text-left">
-            <label className="text-x font-semibold">Name</label>
-            <input
-              className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="flex-col text-left">
-            <label className="text-x font-semibold">Display Name</label>
-            <input
-              className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
-              placeholder="Show name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-            />
-          </div>
-          <div className="flex-col text-left">
-            <label className="text-x font-semibold">Description</label>
-            <textarea
-              value={description ?? ''}
-              onChange={(e) => setDescription(e.target.value)}
-              id="comment"
-              rows={2}
-              className="px-2 pt-2 w-full text-left text-x text-gray-700 leading-tight border-r rounded-lg rounded-t-lg border border-gray-200 hover:border-gray-200"
-              required></textarea>
-          </div>
-          <div className="flex-col text-left">
-            <ImageUploader
-              imageSrc={avatar}
-              setImageSrc={setAvatar}
-            />
+    <div className="flex w-full justify-center items-center">
+      <div className="flex w-3/4 p-10 space-x-5">
+        <div className="max-w-screen-md mx-auto w-1/4">
+          <div className="py-2 px-3">
+            <nav className="flex flex-col gap-4">
+              {TabNames.map((tab) => {
+                if (tab == searchParams.get('tab')) {
+                  return (
+                    <a className="cursor-pointer inline-flex whitespace-nowrap border-b-2 border-transparent border-b-blue-900 py-2 px-3 text-sm font-semibold text-blue-900 transition-all duration-200 ease-in-out">
+                      {' '}
+                      {tab}{' '}
+                    </a>
+                  )
+                } else {
+                  return (
+                    <a
+                      onClick={() => {
+                        var temp = searchParams
+                        temp.set('tab', tab)
+                        setSearchParams(temp)
+                      }}
+                      className="cursor-pointer inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-blue-900 hover:text-blue-900">
+                      {' '}
+                      {tab}{' '}
+                    </a>
+                  )
+                }
+              })}
+            </nav>
           </div>
         </div>
-      </div>
-      <div className="flex space-x-3">
-        <button
-          onClick={() => {
-            handleClickSubmit()
-          }}
-          type="button"
-          className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-blue-400   text-white rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-700">
-          Submit
-        </button>
-        <button
-          onClick={() => {
-            navigate('/')
-          }}
-          type="button"
-          className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-gray-300 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-gray-400">
-          Dismiss
-        </button>
+        <div className="w-3/4">{RenderByTab(tab ?? '')}</div>
       </div>
     </div>
   )
 }
 
-export default EditProfile
+const RenderByTab = (tab: string) => {
+  if (tab == 'Account') {
+    return <EditAccount />
+  }
+  return <EditProfile />
+}
+
+export default EditUser

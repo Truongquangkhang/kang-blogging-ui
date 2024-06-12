@@ -25,3 +25,7 @@ export interface IRefreshTokenResponse {
         access_token: string
     }
 }
+
+export interface IChangePasswordResponse {
+
+}

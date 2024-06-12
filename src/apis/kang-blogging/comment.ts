@@ -7,13 +7,9 @@ const ApiComment = {
         const url = `/api/v1/blog/${params.blog_id}/comment`;
         return axiosClient.get<GetBlogCommentsResponse>(url, {params: params})
      },
-    createBlogComment: (params: CreateBlogCommentRequest, blog_id: string, access_token: string)=>{
+    createBlogComment: (params: CreateBlogCommentRequest, blog_id: string)=>{
         const url = `/api/v1/blog/${blog_id}/comment`
-        return axiosClient.post<CreateBlogCommentResponse>(url,params, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        },)
+        return axiosClient.post<CreateBlogCommentResponse>(url,params)
     },
     getCommentsByParam: (params: GetCommentsByParamRequest) => {
         const url = `/api/v1/comment`

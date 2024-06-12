@@ -1,5 +1,5 @@
-import { ILoginRequest, IRegisterRequest } from "../../interfaces/request/iam_request";
-import { ILoginResponse, IRefreshTokenResponse } from "../../interfaces/response/iam_response";
+import { IChangePasswordRequest, ILoginRequest, IRegisterRequest } from "../../interfaces/request/iam_request";
+import { IChangePasswordResponse, ILoginResponse, IRefreshTokenResponse } from "../../interfaces/response/iam_response";
 import axiosClient from "./axios_client";
 
 const ApiIam = {
@@ -22,6 +22,10 @@ const ApiIam = {
                 Authorization: `Bearer ${refresh_token}`
             }
         })
+    },
+    changePassword: (params: IChangePasswordRequest) => {
+        const url = `/api/v1/iam/change-password`
+        return axiosClient.post<IChangePasswordResponse>(url, params)
     }
 
 }

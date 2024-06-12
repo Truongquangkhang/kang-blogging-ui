@@ -38,7 +38,7 @@ const UserProfile = () => {
               navigate('/edit-profile')
             }}
             className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
-            Edit Profile
+            Edit
           </button>
         </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
@@ -71,6 +71,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
+
       <div className="flex w-full space-x-3 mt-3">
         <div className="w-1/4">
           <div className="flex-col space-y-3 p-2 h-fit rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
@@ -99,7 +100,7 @@ const UserProfile = () => {
                 <div
                   className="mt-3"
                   key={comment.id}>
-                  <p className="truncate text-gray-500 font-medium text-left">
+                  <p className="truncate text-xs text-gray-500 font-medium text-left">
                     {comment.content}
                   </p>
                   <p className="text-xs text-left">
@@ -111,15 +112,17 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-3 w-3/4">
-          {user?.blogs.map((blog) => {
-            return (
-              <BlogDetail
-                key={blog.id}
-                blog={blog}
-              />
-            )
-          })}
+        <div className=" w-3/4">
+          <div className="flex flex-col space-y-3">
+            {user?.blogs.map((blog) => {
+              return (
+                <BlogDetail
+                  key={blog.id}
+                  blog={blog}
+                />
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>
