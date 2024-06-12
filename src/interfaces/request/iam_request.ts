@@ -15,3 +15,8 @@ export interface IRegisterRequest {
     avatar?: string
 }
 
+export interface IChangePasswordRequest {
+    userId: string
+    oldPassword: string
+    newPassword: string
+}

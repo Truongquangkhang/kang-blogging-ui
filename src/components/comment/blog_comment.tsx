@@ -96,7 +96,7 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
                     setYourComment('')
                   }
                 }}
-                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-blue-400   text-white rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-700">
+                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center  bg-blue-800 text-white hover:bg-blue-900 rounded-lg focus:ring-4 focus:ring-primary-200">
                 Submit
               </button>
               <button

@@ -46,6 +46,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     (response: AxiosResponse) => response,
     async (error) => {
       const originalRequest = error.config
+      if (error.response.status === 404) {
+        window.location.href = '/*'
+      }
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true
         if (authStates.refreshToken) {

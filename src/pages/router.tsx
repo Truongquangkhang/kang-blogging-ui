@@ -11,7 +11,7 @@ import FilterBlogs from './filter-blog/index.tsx'
 import Category from './category/index.tsx'
 import Search from './search/index.tsx'
 import UserProfile from './user_profile/index.tsx'
-import EditProdile from './edit_profile/index.tsx'
+import EditUser from './edit_profile/index.tsx'
 import EditBlog from './edit_blog/index.tsx'
 import Discussion from './discussion/index.tsx'
 
@@ -58,7 +58,7 @@ const Router = createBrowserRouter([
       },
       {
         path: '/edit-profile',
-        element: <EditProdile />,
+        element: <EditUser />,
       },
       {
         path: '/login',
@@ -72,11 +72,11 @@ const Router = createBrowserRouter([
         path: '/logout',
         element: <LogOut />,
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: '*',
-    element: <NotFound />,
   },
 ])
 

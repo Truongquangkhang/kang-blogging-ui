@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { setNotify } from '../../../redux/reducers/notify'
 import { CreateBlogCommentRequest } from '../../../interfaces/request/comment_request'
 import Loader from '../../../common/loader'
+import { MapErrorResponse } from '../../../utils/map_data_response'
+import { AxiosError } from 'axios'
 
 interface Props {
   blogID: string
@@ -41,12 +43,20 @@ export const ListComment = ({ blogID, redirectToComment }: Props) => {
       ApiComment.createBlogComment(
         { content: content, reply_comment_id: reply_comment_id },
         blogID,
-        authStates.accessToken ?? '',
       )
         .then((rs) => {
           addNewComment(rs.data.data.comment, reply_comment_id)
         })
-        .catch(() => {})
+        .catch((error) => {
+          const e = MapErrorResponse((error as AxiosError).response)
+          dispatch(
+            setNotify({
+              title: 'an occurred error',
+              description: e.message,
+              mustShow: true,
+            }),
+          )
+        })
     }
   }
 
@@ -122,7 +132,7 @@ export const ListComment = ({ blogID, redirectToComment }: Props) => {
               handleClickSubmitPostComment()
               setYourComment('')
             }}
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800">
+            className="inline-flex bg-blue-800 text-white hover:bg-blue-900 items-center py-2.5 px-4 text-xs font-medium text-center bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800">
             Post comment
           </button>
         </form>
