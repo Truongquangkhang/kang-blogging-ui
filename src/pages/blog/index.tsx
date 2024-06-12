@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { BlogContent } from './components/blog_content'
 import ApiBlog from '../../apis/kang-blogging/blog'
 import { useEffect, useState } from 'react'
@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Category } from '../../components/category/category'
 import { setNotify } from '../../redux/reducers/notify'
 import { MapErrorResponse } from '../../utils/map_data_response'
+import ThumbnailBlog from '../../assets/thumbnail_blog.webp'
+import Loader from '../../common/loader'
 
 const Blog = () => {
   const { id } = useParams()
@@ -18,7 +20,7 @@ const Blog = () => {
   const userState = useAppSelector((state) => state.user)
   const authStates = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
-
+  const [searchParams] = useSearchParams()
   const handlerClickPublished = (published: boolean) => {
     if (blog?.blogInfo.id != undefined && authStates.accessToken != undefined) {
       ApiBlog.updateBlog(blog?.blogInfo.id, authStates.accessToken, {
@@ -58,14 +60,16 @@ const Blog = () => {
   }, [id])
 
   if (isLoading) {
-    return <p>Is Loading</p>
+    return <Loader />
   }
   return (
     <div className="flex space-x-5 pb-5">
       <div className="w-3/4 bg-white rounded-xl shadow-md overflow-hidden pb-2">
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <img
-            src={blog?.blogInfo.thumbnail}
+            src={
+              blog?.blogInfo.thumbnail == '' ? ThumbnailBlog : blog?.blogInfo.thumbnail
+            }
             style={{ aspectRatio: '1000 / 420' }}
             className="w-full"
             alt={blog?.blogInfo.name}
@@ -146,7 +150,10 @@ const Blog = () => {
           <BlogContent content={blog?.content ?? ''} />
         </div>
         <div>
-          <ListComment blogID={id ?? ''} />
+          <ListComment
+            blogID={id ?? ''}
+            redirectToComment={searchParams.get('comment')}
+          />
         </div>
       </div>
       <div className="w-1/4">

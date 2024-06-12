@@ -6,4 +6,5 @@ export interface IUSerMetadata {
     avatar?: string
     description?: string | null
     totalComments?: number | 0
+    totalViolations?: number | 0
 }

@@ -1,23 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BlogComment } from '../../../components/comment/blog_comment'
 import ApiComment from '../../../apis/kang-blogging/comment'
 import { IComment, ICommentWithReplies } from '../../../interfaces/model/comment'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { setNotify } from '../../../redux/reducers/notify'
 import { CreateBlogCommentRequest } from '../../../interfaces/request/comment_request'
+import Loader from '../../../common/loader'
 
 interface Props {
   blogID: string
+  redirectToComment?: string | null
 }
 
 const PAGE_SIZE = 20
 
-export const ListComment = ({ blogID }: Props) => {
+export const ListComment = ({ blogID, redirectToComment }: Props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [comments, setComments] = useState<ICommentWithReplies[]>([])
   const [yourComment, setYourComment] = useState('')
   const authStates = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
+  const commentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
   const handleClickSubmitPostComment = () => {
     if (yourComment != '') {
@@ -81,9 +84,15 @@ export const ListComment = ({ blogID }: Props) => {
   }
   useEffect(() => {
     fetchBlogCommentsById(blogID)
+    console.log(redirectToComment)
+    setTimeout(() => {
+      if (redirectToComment && commentRefs.current[redirectToComment]) {
+        commentRefs.current[redirectToComment]?.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 1500)
   }, [blogID])
   if (isLoading) {
-    return <p>Is Loading</p>
+    return <Loader />
   }
   return (
     <section className="bg-white py-8 lg:py-16 antialiased pr-20 pl-20">
@@ -119,11 +128,14 @@ export const ListComment = ({ blogID }: Props) => {
         </form>
         {comments.map((comment) => {
           return (
-            <BlogComment
+            <div
               key={comment.comment.id}
-              replyTheComment={createBlogComment}
-              comment={comment}
-            />
+              ref={(el) => (commentRefs.current[comment.comment.id] = el)}>
+              <BlogComment
+                replyTheComment={createBlogComment}
+                comment={comment}
+              />
+            </div>
           )
         })}
       </div>

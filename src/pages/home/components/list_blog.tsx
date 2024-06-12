@@ -3,6 +3,7 @@ import ApiBlog from '../../../apis/kang-blogging/blog'
 import { IBlogMetadata } from '../../../interfaces/model/blog_metadata'
 import BlogDetail from '../../../components/blog_detail.ts/blog_detail'
 import { Pagination } from '../../../components/pagination/pagination'
+import Loader from '../../../common/loader'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -46,7 +47,7 @@ const ListBlog = (prop: Props) => {
   }, [page, prop])
 
   if (isLoading) {
-    return <p>Is Loading ...</p>
+    return <Loader />
   }
   return (
     <div>

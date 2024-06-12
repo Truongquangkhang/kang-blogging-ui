@@ -3,7 +3,7 @@ import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { Category } from '../category/category'
 import { FormatRelativeTime } from '../../utils/convert'
-
+import ThumbnailBlog from '../../assets/thumbnail_blog.webp'
 interface Prods {
   blog: IBlogMetadata
 }
@@ -19,7 +19,7 @@ const BlogDetail = ({ blog }: Prods) => {
         <div className="md:shrink-0">
           <img
             className="h-48 w-full object-cover md:h-full md:w-64"
-            src={blog.thumbnail}
+            src={blog.thumbnail != '' ? blog.thumbnail : ThumbnailBlog}
             alt="Modern building architecture"
           />
         </div>

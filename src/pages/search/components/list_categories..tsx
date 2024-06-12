@@ -3,6 +3,7 @@ import CategoryCard from '../../../components/category_card'
 import { ICategory } from '../../../interfaces/model/category'
 import ApiCategory from '../../../apis/kang-blogging/category'
 import { Pagination } from '../../../components/pagination/pagination'
+import Loader from '../../../common/loader'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -38,7 +39,7 @@ const ListCategories = (prop: Props) => {
     }
   }, [page, prop])
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
   return (
     <div>

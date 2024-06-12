@@ -9,6 +9,14 @@ export interface IComment {
     user: IUSerMetadata
 }
 
+export interface ICommentMetadata {
+    id: string
+    content: string
+    isToxicity: boolean
+    createdAt: number
+    updateAt: number
+}
+
 export interface ICommentWithReplies {
     comment: IComment
     replies: IComment[]

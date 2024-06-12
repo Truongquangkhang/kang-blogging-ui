@@ -3,6 +3,7 @@ import { IUser } from '../../../interfaces/model/user'
 import ApiUser from '../../../apis/kang-blogging/user'
 import { IBlogMetadata } from '../../../interfaces/model/blog_metadata'
 import { useNavigate, useParams } from 'react-router-dom'
+import Loader from '../../../common/loader'
 
 interface Props {
   user_id: string
@@ -30,7 +31,7 @@ export const CardProfile = ({ user_id }: Props) => {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
   return (
     <div className="flex flex-col space-y-1 bg-gray-100">

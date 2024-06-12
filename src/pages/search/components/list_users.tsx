@@ -3,6 +3,7 @@ import ApiUser from '../../../apis/kang-blogging/user'
 import { IUSerMetadata } from '../../../interfaces/model/user_metadata'
 import { Pagination } from '../../../components/pagination/pagination'
 import UserCard from '../../../components/user_card.ts'
+import Loader from '../../../common/loader/index.tsx'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -39,7 +40,7 @@ const ListUsers = (prop: Props) => {
     }
   }, [page, prop])
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loader />
   }
 
   return (
