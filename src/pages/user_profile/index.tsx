@@ -38,7 +38,7 @@ const UserProfile = () => {
               navigate('/edit-profile')
             }}
             className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
-            Edit Profile
+            Edit
           </button>
         </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
