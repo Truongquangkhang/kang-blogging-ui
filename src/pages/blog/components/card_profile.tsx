@@ -13,12 +13,14 @@ export const CardProfile = ({ user_id }: Props) => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
+  const [blogs, setBlogs] = useState<IBlogMetadata[]>()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     ApiUser.getUserDetail(user_id)
       .then((rs) => {
         setUser(rs.data.data.user)
+        setBlogs(rs.data.data.blogs)
         setIsLoading(false)
       })
       .catch((err) => {
@@ -63,7 +65,7 @@ export const CardProfile = ({ user_id }: Props) => {
             </div>
             <div className="flex flex-col text-left ">
               <p className="font-bold ">Total Blogs</p>
-              <p className="text-gray-400">{user?.userInfo.totalBlogs}</p>
+              <p className="text-gray-400">{user?.totalBlogs}</p>
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@ export const CardProfile = ({ user_id }: Props) => {
             </div>
           </div>
           <div className="flex flex-col space-y-5 divide-y text-xs justify-start items-start">
-            {user?.blogs.map((blog) => {
+            {blogs?.map((blog) => {
               if (blog.id == id) {
                 return
               }

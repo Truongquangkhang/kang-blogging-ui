@@ -34,8 +34,8 @@ const CreateBlog = () => {
         },
         authStates.accessToken ?? '',
       )
-        .then(() => {
-          navigate('/')
+        .then((rs) => {
+          navigate(`/blog/${rs.data.data.blog.blogInfo.id}`)
         })
         .catch((err) => {
           console.error(err)

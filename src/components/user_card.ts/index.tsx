@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-import { IUSerMetadata } from '../../interfaces/model/user_metadata'
+import { IUser } from '../../interfaces/model/user'
 
 interface Props {
-  user: IUSerMetadata
+  user: IUser
 }
 
 const UserCard = ({ user }: Props) => {
@@ -12,28 +12,25 @@ const UserCard = ({ user }: Props) => {
       <div className="flex items-center">
         <img
           className="h-10 w-10 rounded-full object-cover"
-          src={user.avatar}
+          src={user.userInfo.avatar}
           alt="Simon Lewis"
         />
-        <strong
-          onClick={() => {
-            navigate(`/user/${user.id}`)
-          }}
-          className="ml-2 block text-xs font-medium cursor-pointer hover:text-blue-900">
-          {user.displayName}
-        </strong>
+        <div className="flex flex-col text-left">
+          <strong
+            onClick={() => {
+              navigate(`/user/${user.userInfo.id}`)
+            }}
+            className="ml-3 block text-xs font-medium cursor-pointer hover:text-blue-900">
+            @{user.userInfo.displayName}
+          </strong>
+          <strong className="ml-3 block text-sm text-gray-500 font-medium">
+            {user.userInfo.name}
+          </strong>
+        </div>
       </div>
-      <div>
-        <strong
-          onClick={() => {
-            navigate(`/user/${user.id}`)
-          }}
-          className="ml-12 block text-lg font-medium cursor-pointer hover:text-blue-900">
-          {user.name}
-        </strong>
-      </div>
+
       <div className="flex items-start ml-12 mt-3">
-        <p className="text-x text-gray-400">Bio: {user.description}</p>
+        <p className="text-x text-gray-400">Bio: {user.userInfo.description}</p>
       </div>
     </div>
   )

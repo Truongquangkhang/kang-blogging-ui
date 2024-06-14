@@ -1,5 +1,3 @@
-import { IBlogMetadata } from './blog_metadata';
-import { ICommentMetadata } from './comment';
 import { IUSerMetadata } from "./user_metadata";
 
 export interface IUser {
@@ -8,6 +6,11 @@ export interface IUser {
     gender: boolean
     createdAt: number
     dateOfBirth?: number | null
-    blogs: IBlogMetadata[];
-    comments: ICommentMetadata[];
+    totalBlogs: number
+    totalComments: number
+    totalFollowers: number
+    totalFolloweds: number
+    totalViolations: number
+    isFollowed: boolean
+    isFollower: boolean
 } 

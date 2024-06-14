@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import ApiUser from '../../../apis/kang-blogging/user'
-import { IUSerMetadata } from '../../../interfaces/model/user_metadata'
 import { Pagination } from '../../../components/pagination/pagination'
 import UserCard from '../../../components/user_card.ts'
 import Loader from '../../../common/loader/index.tsx'
+import { IUser } from '../../../interfaces/model/user.ts'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const ListUsers = (prop: Props) => {
-  const [listUsers, setListusers] = useState<IUSerMetadata[]>([])
+  const [listUsers, setListusers] = useState<IUser[]>([])
   const [page, setPage] = useState(INITIAL_PAGE)
   const [totalItems, setTotalItems] = useState(0)
   const [isLoading, setIsLoading] = useState(true)

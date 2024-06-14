@@ -9,10 +9,14 @@ import { IUser } from '../../interfaces/model/user'
 import BlogDetail from '../../components/blog_detail.ts/blog_detail'
 import { useAppSelector } from '../../hooks'
 import Loader from '../../common/loader'
+import { ICommentMetadata } from '../../interfaces/model/comment'
+import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 
 const UserProfile = () => {
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
+  const [comments, setComments] = useState<ICommentMetadata[]>([])
+  const [blogs, setBlogs] = useState<IBlogMetadata[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
   const navigate = useNavigate()
@@ -20,6 +24,8 @@ const UserProfile = () => {
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
       setUser(rs.data.data.user)
+      setBlogs(rs.data.data.blogs)
+      setComments(rs.data.data.comments)
       setIsLoading(false)
     })
   }, [id])
@@ -78,24 +84,24 @@ const UserProfile = () => {
             <div className="flex items-center space-x-4">
               <RiBook2Line />
               <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalBlogs} posts published
+                {user?.totalBlogs} posts published
               </strong>
             </div>
             <div className="flex items-center space-x-4">
               <AiOutlineMessage />
               <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalComments} comments written
+                {user?.totalComments} comments written
               </strong>
             </div>
             <div className="flex items-center space-x-4">
               <PiWarning />
               <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalViolations} total violated
+                {user?.totalViolations} total violated
               </strong>
             </div>
           </div>
           <div className="mt-5 flex-col space-y-3 h-fit divide-y rounded-lg border border-gray-100 bg-white px-4 py-5 shadow-lg">
-            {user?.comments.map((comment) => {
+            {comments.map((comment) => {
               return (
                 <div
                   className="mt-3"
@@ -114,7 +120,7 @@ const UserProfile = () => {
 
         <div className=" w-3/4">
           <div className="flex flex-col space-y-3">
-            {user?.blogs.map((blog) => {
+            {blogs.map((blog) => {
               return (
                 <BlogDetail
                   key={blog.id}
