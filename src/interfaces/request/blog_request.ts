@@ -3,8 +3,8 @@ export interface GetBlogsRequest {
     pageSize: number
     searchBy?: string | null
     searchName?: string | null
-    authorIds?: string
-    categoryIds?: string
+    authorIds?: string | null
+    categoryIds?: string | null
     sortBy?: string | null
     published?: boolean | null
     isDeprecated?: boolean | null

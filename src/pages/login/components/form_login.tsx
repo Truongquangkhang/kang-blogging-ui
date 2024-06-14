@@ -7,6 +7,7 @@ import { AxiosError } from 'axios'
 import { setAuth } from '../../../redux/reducers/auth'
 import { setUser } from '../../../redux/reducers/user'
 import { useNavigate } from 'react-router-dom'
+import LoadingButton from '../../../components/loading_button/loading_button'
 
 const FormLogin = () => {
   const navigate = useNavigate()
@@ -65,12 +66,16 @@ const FormLogin = () => {
           />
         </div>
         <div className="flex items-center justify-between">
-          <button
+          {/* <button
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={SubmitFormLoginHandler}>
             Sign In
-          </button>
+          </button> */}
+          <LoadingButton
+            onClick={SubmitFormLoginHandler}
+            name="Sign In"
+          />
         </div>
       </form>
       <p className="text-center text-gray-500 text-xs"></p>

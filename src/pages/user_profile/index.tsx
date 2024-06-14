@@ -1,45 +1,104 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { FormatRelativeTime, FormatTimestampToDate } from '../../utils/convert'
 import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { PiWarning } from 'react-icons/pi'
+import { GoPeople, GoHeart } from 'react-icons/go'
 import { useEffect, useState } from 'react'
 import ApiUser from '../../apis/kang-blogging/user'
 import { IUser } from '../../interfaces/model/user'
-import BlogDetail from '../../components/blog_detail.ts/blog_detail'
 import { useAppSelector } from '../../hooks'
 import Loader from '../../common/loader'
+import { ICommentMetadata } from '../../interfaces/model/comment'
+import ListBlog from '../home/components/list_blog'
+import ListComments from '../discussion/components/list_comments'
+import ListUsers from '../search/components/list_users'
+
+const TypeTab = {
+  ['selected']:
+    'w-full cursor-pointer inline-flex whitespace-nowrap border-b-2 border-transparent border-b-blue-900 py-2 px-3 text-sm font-semibold text-blue-900 transition-all duration-200 ease-in-ou',
+  ['unselect']:
+    'w-full cursor-pointer inline-flex whitespace-nowrap border-b-2 border-transparent py-2 px-3 text-sm font-medium text-gray-600 transition-all duration-200 ease-in-out hover:border-b-blue-900 hover:text-blue-900',
+}
 
 const UserProfile = () => {
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
+  const [comments, setComments] = useState<ICommentMetadata[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
+  const [searchParam, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+  var tab = searchParam.get('tab')
+  if (tab == null) {
+    searchParam.set('tab', 'blog')
+    setSearchParams(searchParam)
+  }
 
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
       setUser(rs.data.data.user)
+      setComments(rs.data.data.comments)
       setIsLoading(false)
     })
   }, [id])
+
+  const RenderByTab = (tab: string) => {
+    switch (tab) {
+      case 'comment':
+        return (
+          <div className="flex flex-col space-y-3">
+            <ListComments
+              UserIds={user?.userInfo.id}
+              IsToxic={false}
+            />
+          </div>
+        )
+      case 'follower':
+        return (
+          <div className="flex flex-col space-y-3">
+            <ListUsers FollowedId={user?.userInfo.id} />
+          </div>
+        )
+      case 'followed':
+        return (
+          <div className="flex flex-col space-y-3">
+            <ListUsers FollowerId={user?.userInfo.id} />
+          </div>
+        )
+      default:
+        return (
+          <div className="flex flex-col space-y-3">
+            <ListBlog AuthorIds={user?.userInfo.id} />
+          </div>
+        )
+    }
+  }
+
   if (isLoading) {
     return <Loader />
   }
   return (
     <div className="flex flex-col p-10 justify-center items-center m-10">
       <div className="flex flex-col items-center justify-center w-full rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
-        <div
-          className={`absolute: ${
-            userStates.user?.id == user?.userInfo.id ? 'block' : 'hidden'
-          } flex w-full justify-end mb-2`}>
-          <button
-            onClick={() => {
-              navigate('/edit-profile')
-            }}
-            className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
-            Edit
-          </button>
+        <div className={`flex w-full justify-end mb-2`}>
+          {userStates.user?.id == user?.userInfo.id ? (
+            <button
+              onClick={() => {
+                navigate('/edit-profile')
+              }}
+              className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
+              Edit
+            </button>
+          ) : !user?.isFollowed ? (
+            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
+              Follow
+            </button>
+          ) : (
+            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
+              Unfollow
+            </button>
+          )}
         </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
           <img
@@ -77,25 +136,64 @@ const UserProfile = () => {
           <div className="flex-col space-y-3 p-2 h-fit rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
             <div className="flex items-center space-x-4">
               <RiBook2Line />
-              <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalBlogs} posts published
+              <strong
+                onClick={() => {
+                  searchParam.set('tab', 'blog')
+                  setSearchParams(searchParam)
+                }}
+                className={tab == 'blog' ? TypeTab['selected'] : TypeTab['unselect']}>
+                {user?.totalBlogs} posts published
               </strong>
             </div>
             <div className="flex items-center space-x-4">
               <AiOutlineMessage />
-              <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalComments} comments written
+              <strong
+                onClick={() => {
+                  searchParam.set('tab', 'comment')
+                  setSearchParams(searchParam)
+                }}
+                className={tab == 'comment' ? TypeTab['selected'] : TypeTab['unselect']}>
+                {user?.totalComments} comments written
+              </strong>
+            </div>
+            <div className="flex items-center space-x-4">
+              <GoPeople />
+              <strong
+                onClick={() => {
+                  searchParam.set('tab', 'follower')
+                  setSearchParams(searchParam)
+                }}
+                className={tab == 'follower' ? TypeTab['selected'] : TypeTab['unselect']}>
+                {user?.totalFollowers} total followers
+              </strong>
+            </div>
+            <div className="flex items-center space-x-4">
+              <GoHeart />
+              <strong
+                onClick={() => {
+                  searchParam.set('tab', 'followed')
+                  setSearchParams(searchParam)
+                }}
+                className={tab == 'followed' ? TypeTab['selected'] : TypeTab['unselect']}>
+                {user?.totalFolloweds} total followeds
               </strong>
             </div>
             <div className="flex items-center space-x-4">
               <PiWarning />
-              <strong className="block text-l text-gray-500 font-medium">
-                {user?.userInfo.totalViolations} total violated
+              <strong
+                onClick={() => {
+                  searchParam.set('tab', 'violation')
+                  setSearchParams(searchParam)
+                }}
+                className={
+                  tab == 'violation' ? TypeTab['selected'] : TypeTab['unselect']
+                }>
+                {user?.totalViolations} total violated
               </strong>
             </div>
           </div>
           <div className="mt-5 flex-col space-y-3 h-fit divide-y rounded-lg border border-gray-100 bg-white px-4 py-5 shadow-lg">
-            {user?.comments.map((comment) => {
+            {comments.map((comment) => {
               return (
                 <div
                   className="mt-3"
@@ -112,18 +210,7 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <div className=" w-3/4">
-          <div className="flex flex-col space-y-3">
-            {user?.blogs.map((blog) => {
-              return (
-                <BlogDetail
-                  key={blog.id}
-                  blog={blog}
-                />
-              )
-            })}
-          </div>
-        </div>
+        <div className=" w-3/4">{RenderByTab(tab ?? '')}</div>
       </div>
     </div>
   )

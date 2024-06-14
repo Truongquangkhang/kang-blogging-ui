@@ -3,6 +3,9 @@ export interface GetUsersRequest {
     pageSize: number
     searchBy?: string | null
     searchName?: string | null
+    followerId?: string | null
+    followedId?: string | null
+    sortBy?: string | null
 }
 
 export interface GetUserDetailRequest {

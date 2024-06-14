@@ -9,7 +9,7 @@ const PopUp = ({ openPopUp, closePopUp }: Props) => {
   const navigate = useNavigate()
   const handleButtonContinue = () => {
     closePopUp()
-    navigate('/')
+    navigate('/login')
   }
 
   if (openPopUp !== true) return null

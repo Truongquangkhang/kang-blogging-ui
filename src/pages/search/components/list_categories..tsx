@@ -4,6 +4,7 @@ import { ICategory } from '../../../interfaces/model/category'
 import ApiCategory from '../../../apis/kang-blogging/category'
 import { Pagination } from '../../../components/pagination/pagination'
 import Loader from '../../../common/loader'
+import Empty from '../../../common/empty'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
@@ -41,6 +42,9 @@ const ListCategories = (prop: Props) => {
   if (isLoading) {
     return <Loader />
   }
+  if (totalItems == 0) {
+    return <Empty />
+  }
   return (
     <div>
       <div className="flex-col space-y-3 w-full justify-center border-spacing-20">
@@ -53,7 +57,10 @@ const ListCategories = (prop: Props) => {
           )
         })}
 
-        <div className="flex justify-center">
+        <div
+          className={`${
+            totalItems < PAGE_SIZE ? 'hidden' : 'block'
+          } flex justify-center`}>
           <Pagination
             totalItem={totalItems}
             itemPerPage={PAGE_SIZE}

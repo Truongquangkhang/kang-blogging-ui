@@ -4,12 +4,15 @@ import ApiComment from '../../../apis/kang-blogging/comment'
 import CommentCard from '../../../components/comment_card'
 import { Pagination } from '../../../components/pagination/pagination'
 import Loader from '../../../common/loader'
+import Empty from '../../../common/empty'
 
 const PAGE_SIZE = 20
 const INITIAL_PAGE = 1
 export interface Props {
   SearchName?: string | null
   SortBy?: string | null
+  UserIds?: string | null
+  IsToxic?: boolean | null
 }
 
 const ListComments = (prop: Props) => {
@@ -26,6 +29,8 @@ const ListComments = (prop: Props) => {
         pageSize: PAGE_SIZE,
         searchName: prop.SearchName,
         sortBy: prop.SortBy,
+        userIds: prop.UserIds,
+        isToxicity: prop.IsToxic,
       })
         .then((rs) => {
           setListComments(rs.data.data.comments)
@@ -42,6 +47,9 @@ const ListComments = (prop: Props) => {
   if (isLoading) {
     return <Loader />
   }
+  if (totalItems == 0) {
+    return <Empty />
+  }
   return (
     <div className="flex flex-col w-full space-y-3">
       {listComments.map((comment) => {
@@ -52,7 +60,8 @@ const ListComments = (prop: Props) => {
           />
         )
       })}
-      <div className="flex justify-center">
+      <div
+        className={`${totalItems < PAGE_SIZE ? 'hidden' : 'block'} flex justify-center`}>
         <Pagination
           totalItem={totalItems}
           itemPerPage={PAGE_SIZE}

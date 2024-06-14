@@ -1,3 +1,5 @@
+import { IBlogMetadata } from "../model/blog_metadata";
+import { ICommentMetadata } from "../model/comment";
 import { IPagination } from "../model/pagination";
 import { IUser } from "../model/user";
 import { IUSerMetadata } from "../model/user_metadata";
@@ -7,7 +9,7 @@ export interface GetUsersResponse {
     code: number
     message: string
     data: {
-        users: IUSerMetadata[]
+        users: IUser[]
         pagination: IPagination
     }
 }
@@ -16,6 +18,8 @@ export interface GetUserDetailResponse {
     message: string
     data: {
         user: IUser
+        blogs: IBlogMetadata[]
+        comments: ICommentMetadata[]
     }
 }
 
@@ -25,4 +29,9 @@ export interface UpdateUserResponse {
     data: {
         user: IUSerMetadata
     }
+}
+
+export interface FollowUserResponse {
+    code: number
+    message: string
 }
