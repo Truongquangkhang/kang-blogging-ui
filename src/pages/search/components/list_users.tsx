@@ -12,8 +12,8 @@ const INITIAL_PAGE = 1
 export interface Props {
   SearchBy?: string | null
   SearchName?: string | null
-  Follower?: boolean | null
-  Followed?: boolean | null
+  FollowerId?: string | null
+  FollowedId?: string | null
 }
 
 const ListUsers = (prop: Props) => {
@@ -30,8 +30,8 @@ const ListUsers = (prop: Props) => {
         pageSize: PAGE_SIZE,
         searchBy: prop.SearchBy,
         searchName: prop.SearchName,
-        followed: prop.Followed,
-        follower: prop.Follower,
+        followedId: prop.FollowedId,
+        followerId: prop.FollowerId,
       })
         .then((rs) => {
           setListusers(rs.data.data.users)

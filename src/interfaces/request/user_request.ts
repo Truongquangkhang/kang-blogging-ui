@@ -3,8 +3,8 @@ export interface GetUsersRequest {
     pageSize: number
     searchBy?: string | null
     searchName?: string | null
-    follower?: boolean | null
-    followed?: boolean | null
+    followerId?: string | null
+    followedId?: string | null
     sortBy?: string | null
 }
 

@@ -10,7 +10,6 @@ import { IUser } from '../../interfaces/model/user'
 import { useAppSelector } from '../../hooks'
 import Loader from '../../common/loader'
 import { ICommentMetadata } from '../../interfaces/model/comment'
-import { IBlogMetadata } from '../../interfaces/model/blog_metadata'
 import ListBlog from '../home/components/list_blog'
 import ListComments from '../discussion/components/list_comments'
 import ListUsers from '../search/components/list_users'
@@ -26,7 +25,6 @@ const UserProfile = () => {
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
   const [comments, setComments] = useState<ICommentMetadata[]>([])
-  const [blogs, setBlogs] = useState<IBlogMetadata[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
   const [searchParam, setSearchParams] = useSearchParams()
@@ -40,7 +38,6 @@ const UserProfile = () => {
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
       setUser(rs.data.data.user)
-      setBlogs(rs.data.data.blogs)
       setComments(rs.data.data.comments)
       setIsLoading(false)
     })
@@ -60,13 +57,13 @@ const UserProfile = () => {
       case 'follower':
         return (
           <div className="flex flex-col space-y-3">
-            <ListUsers Follower={true} />
+            <ListUsers FollowerId={user?.userInfo.id} />
           </div>
         )
       case 'followed':
         return (
           <div className="flex flex-col space-y-3">
-            <ListUsers Followed={true} />
+            <ListUsers FollowedId={user?.userInfo.id} />
           </div>
         )
       default:
@@ -84,17 +81,24 @@ const UserProfile = () => {
   return (
     <div className="flex flex-col p-10 justify-center items-center m-10">
       <div className="flex flex-col items-center justify-center w-full rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
-        <div
-          className={`absolute: ${
-            userStates.user?.id == user?.userInfo.id ? 'block' : 'hidden'
-          } flex w-full justify-end mb-2`}>
-          <button
-            onClick={() => {
-              navigate('/edit-profile')
-            }}
-            className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
-            Edit
-          </button>
+        <div className={`flex w-full justify-end mb-2`}>
+          {userStates.user?.id == user?.userInfo.id ? (
+            <button
+              onClick={() => {
+                navigate('/edit-profile')
+              }}
+              className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
+              Edit
+            </button>
+          ) : !user?.isFollowed ? (
+            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
+              Follow
+            </button>
+          ) : (
+            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
+              Unfollow
+            </button>
+          )}
         </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
           <img

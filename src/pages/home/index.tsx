@@ -8,7 +8,7 @@ const Home = () => {
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
           <p>Blogs</p>
         </div>
-        <ListBlog />
+        <ListBlog Published={true} />
       </div>
       <div className="w-2/5">
         <div className="text-left font-semibold text-xl tracking-tight mb-5">
