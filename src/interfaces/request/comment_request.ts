@@ -15,5 +15,5 @@ export interface GetCommentsByParamRequest {
     searchName?: string | null
     sortBy?: string | null
     isToxicity?: boolean | null
-    userIDs?: string | null
+    userIds?: string | null
 }

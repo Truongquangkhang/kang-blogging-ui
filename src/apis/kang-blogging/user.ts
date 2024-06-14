@@ -1,6 +1,6 @@
 import { UpdateUserRequest } from './../../interfaces/request/user_request';
 import { GetUsersRequest } from "../../interfaces/request/user_request";
-import { GetUserDetailResponse, GetUsersResponse, UpdateUserResponse } from "../../interfaces/response/user_response";
+import { FollowUserResponse, GetUserDetailResponse, GetUsersResponse, UpdateUserResponse } from "../../interfaces/response/user_response";
 import axiosClient from "./axios_client";
 
 const ApiUser = {
@@ -19,6 +19,14 @@ const ApiUser = {
                 Authorization: `Bearer ${access_token}`
             }
         })
+    },
+    followUser: (user_id: string) => {
+        const url = `/api/v1/user/${user_id}/follow`;
+        return axiosClient.post<FollowUserResponse>(url)
+    },
+    unfollowUser: (user_id: string) => {
+        const url = `/api/v1/user/${user_id}/follow`;
+        return axiosClient.delete<FollowUserResponse>(url)
     } 
 }
 

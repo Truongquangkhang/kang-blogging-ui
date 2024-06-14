@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 const LIMIT_PAGE = 7
 
 interface PaginationProps {

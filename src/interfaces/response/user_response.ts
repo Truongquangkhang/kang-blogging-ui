@@ -30,3 +30,8 @@ export interface UpdateUserResponse {
         user: IUSerMetadata
     }
 }
+
+export interface FollowUserResponse {
+    code: number
+    message: string
+}
