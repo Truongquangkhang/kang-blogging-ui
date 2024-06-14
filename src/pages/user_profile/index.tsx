@@ -57,13 +57,13 @@ const UserProfile = () => {
       case 'follower':
         return (
           <div className="flex flex-col space-y-3">
-            <ListUsers FollowerId={user?.userInfo.id} />
+            <ListUsers FollowedId={user?.userInfo.id} />
           </div>
         )
       case 'followed':
         return (
           <div className="flex flex-col space-y-3">
-            <ListUsers FollowedId={user?.userInfo.id} />
+            <ListUsers FollowerId={user?.userInfo.id} />
           </div>
         )
       default:

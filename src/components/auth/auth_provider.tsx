@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true
         if (authStates.refreshToken) {
-          ApiIam.refreshToken(authStates.refreshToken).then((rs) => {
+          ApiIam.refreshToken().then((rs) => {
             if (rs) {
               const newAccessToken = rs.data.data.access_token
               dispatch(

@@ -39,6 +39,7 @@ const FilterBlogs = ({ selectCate }: FilterBlogsProps) => {
         <ListBlog
           SortBy={filter?.SortBy}
           CategoryIds={filter?.CategoryIds}
+          Published={true}
           SearchBy={'title'}
           SearchName={filter?.SearchName}
         />

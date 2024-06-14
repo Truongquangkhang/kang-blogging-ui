@@ -7,6 +7,7 @@ import { setNotify } from '../../../redux/reducers/notify'
 import { MapErrorResponse } from '../../../utils/map_data_response'
 import { AxiosError } from 'axios'
 import PopUp from './popup_registre_success'
+import LoadingButton from '../../../components/loading_button/loading_button'
 
 const FormRegister = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -98,7 +99,13 @@ const FormRegister = () => {
           )
         })
     } else {
-      console.log('Invalid params')
+      dispatch(
+        setNotify({
+          title: 'Missing required fiels',
+          description: '',
+          mustShow: true,
+        }),
+      )
     }
   }
 
@@ -245,14 +252,18 @@ const FormRegister = () => {
           </p>
         </div>
         <div className="items-center justify-between">
-          <button
+          {/* <button
             className=" w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={() => {
               handlerClickButtonCreate()
             }}>
             Create
-          </button>
+          </button> */}
+          <LoadingButton
+            name="Register"
+            onClick={handlerClickButtonCreate}
+          />
         </div>
       </form>
       <PopUp

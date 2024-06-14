@@ -14,6 +14,7 @@ export interface Props {
   SearchName?: string | null
   FollowerId?: string | null
   FollowedId?: string | null
+  SortBy?: string | null
 }
 
 const ListUsers = (prop: Props) => {
@@ -32,6 +33,7 @@ const ListUsers = (prop: Props) => {
         searchName: prop.SearchName,
         followedId: prop.FollowedId,
         followerId: prop.FollowerId,
+        sortBy: prop.SortBy,
       })
         .then((rs) => {
           setListusers(rs.data.data.users)

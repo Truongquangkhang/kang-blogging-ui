@@ -15,13 +15,9 @@ const ApiIam = {
         const url= `/api/v1/iam/check-exist-username?username=${username}`;
         return axiosClient.get(url)
     },
-    refreshToken: (refresh_token: string) => {
+    refreshToken: () => {
         const url = `/api/v1/iam/refresh-access-token`
-        return axiosClient.post<IRefreshTokenResponse>(url, null, {
-            headers: {
-                Authorization: `Bearer ${refresh_token}`
-            }
-        })
+        return axiosClient.post<IRefreshTokenResponse>(url)
     },
     changePassword: (params: IChangePasswordRequest) => {
         const url = `/api/v1/iam/change-password`
