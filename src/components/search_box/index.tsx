@@ -5,7 +5,7 @@ const SearchBox = () => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const handlerSearch = () => {
-    navigate(`/search?q=${searchQuery}&tab=Blogs`)
+    navigate(`/search?q=${searchQuery}&tab=Blogs&sort_by=newest`)
   }
   return (
     <div className="relative">
