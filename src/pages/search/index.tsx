@@ -104,7 +104,7 @@ const RenderByTab = ({ tab, searchName, sortBy }: RenderByTabProps) => {
         SearchBy={'title'}
         Published={true}
         SearchName={searchName}
-        SortBy={sortBy == 'newest' || sortBy == null ? 'updated_at' : 'total_comment'}
+        SortBy={sortBy != 'newest' ? 'total_comment' : 'updated_at'}
       />
     )
   } else if (tab == 'Users') {
@@ -112,21 +112,21 @@ const RenderByTab = ({ tab, searchName, sortBy }: RenderByTabProps) => {
       <ListUsers
         SearchBy={'name'}
         SearchName={searchName}
-        SortBy={sortBy == 'newest' || sortBy == null ? 'created_at' : 'total_follower'}
+        SortBy={sortBy != 'newest' ? 'total_follower' : 'created_at'}
       />
     )
   } else if (tab == 'Categories') {
     return (
       <ListCategories
         SearchName={searchName}
-        SortBy={sortBy == 'newest' || sortBy == null ? 'created_at' : 'total_blog'}
+        SortBy={sortBy != 'newest' ? 'total_blog' : 'created_at'}
       />
     )
   } else if (tab == 'Discussions') {
     return (
       <ListComments
         SearchName={searchName}
-        SortBy={sortBy == 'newest' || sortBy == null ? 'created_at' : 'total_reply'}
+        SortBy={sortBy != 'newest' ? 'total_reply' : 'created_at'}
       />
     )
   }

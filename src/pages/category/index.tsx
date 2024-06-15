@@ -3,7 +3,7 @@ import ListBlog from '../home/components/list_blog'
 
 const Category = () => {
   const { id } = useParams()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
   return (
     <div className="flex flex-col p-10 space-y-10 items-center">

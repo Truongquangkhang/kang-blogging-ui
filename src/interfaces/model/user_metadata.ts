@@ -4,4 +4,5 @@ export interface IUSerMetadata {
     displayName: string
     avatar?: string
     description?: string | null
+    isActive: boolean | null
 }
