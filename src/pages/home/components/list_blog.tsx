@@ -16,6 +16,7 @@ export interface Props {
   SortBy?: string | null
   Published?: boolean | null
   AuthorIds?: string | null
+  GetRelevant?: boolean | null
 }
 
 const ListBlog = (prop: Props) => {
@@ -37,6 +38,7 @@ const ListBlog = (prop: Props) => {
         sortBy: prop.SortBy,
         published: prop.Published,
         isDeprecated: false,
+        getRelevant: prop.GetRelevant,
       })
         .then((rs) => {
           setListBlogs(rs.data.data.blogs)

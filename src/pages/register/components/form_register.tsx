@@ -8,6 +8,7 @@ import { MapErrorResponse } from '../../../utils/map_data_response'
 import { AxiosError } from 'axios'
 import PopUp from './popup_registre_success'
 import LoadingButton from '../../../components/loading_button/loading_button'
+import ImageUploader from '../../../components/upload_image'
 
 const FormRegister = () => {
   const [openPopup, setOpenPopup] = useState(false)
@@ -22,6 +23,7 @@ const FormRegister = () => {
   const [repeatPassowrd, setRepeatPassword] = useState('')
   const [isValidUserName, setIsValidUsername] = useState(true)
   const [isMatchingPassword, setIsMatchingPassword] = useState(true)
+  const [image, setImage] = useState()
   const dispatch = useAppDispatch()
 
   const checkRepeatPassword = (repeatPassword: any) => {
@@ -81,6 +83,7 @@ const FormRegister = () => {
         phone_numbers: phoneNumbers,
         username: username,
         password: password,
+        avatar: image,
       }
 
       await ApiIam.register(request)
@@ -113,6 +116,14 @@ const FormRegister = () => {
     <div className="w-1/2 text-left">
       <p className="text-2xl font-bold text-center mb-5">Register</p>
       <form className=" bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="flex-col space-y-3 mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Avatar</label>
+          <ImageUploader
+            imageSrc={image ?? ''}
+            setImageSrc={setImage}
+            eager={'w_320,h_320,c_fit'}
+          />
+        </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
           <input

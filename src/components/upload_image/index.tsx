@@ -3,13 +3,15 @@ import ApiImage from '../../apis/kang-blogging/image'
 interface Props {
   imageSrc: string
   setImageSrc: any
+  eager?: string | null
 }
 
-const ImageUploader = ({ imageSrc, setImageSrc }: Props) => {
+const ImageUploader = ({ imageSrc, setImageSrc, eager }: Props) => {
   const handleImageChange = (event: any) => {
     var bodyFormData = new FormData()
     const file = event.target.files[0]
     bodyFormData.append('image', file)
+    bodyFormData.append('eager', eager ?? 'w_924,h_528,c_pad')
     ApiImage.uploadImage(bodyFormData)
       .then((rs) => {
         setImageSrc(rs.data.data.url)

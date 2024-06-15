@@ -65,6 +65,7 @@ const Home = () => {
         <ListBlog
           Published={true}
           SortBy={paramsGetBlogs.sortBy}
+          GetRelevant={tab == 'relevant' ? true : null}
         />
       </div>
       <div className="w-2/5">
@@ -72,7 +73,7 @@ const Home = () => {
           <p>Categories</p>
         </div>
         <div className="justify-start">
-          <ListCategory />
+          <ListCategory SortBy={'total_blog'} />
         </div>
       </div>
     </div>
