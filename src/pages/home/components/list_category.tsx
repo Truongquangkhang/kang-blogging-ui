@@ -6,14 +6,18 @@ import Loader from '../../../common/loader'
 
 const PAGE_SIZE = 50
 
-export const ListCategory = () => {
+interface Props {
+  SortBy?: string | null
+}
+
+export const ListCategory = (prop: Props) => {
   const [listCategory, setListCategory] = useState<ICategory[]>([])
   const [page, setPage] = useState(1)
   const [totalItems, setTotalItems] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchCategories = (pageNum: number) => {
-    ApiCategory.getCategories({ page: pageNum, pageSize: PAGE_SIZE, sortBy: 'blog' })
+    ApiCategory.getCategories({ page: pageNum, pageSize: PAGE_SIZE, sortBy: prop.SortBy })
       .then((rs) => {
         setListCategory((prevCategories) => [
           ...prevCategories,

@@ -7,12 +7,15 @@ import { GoPeople, GoHeart } from 'react-icons/go'
 import { useEffect, useState } from 'react'
 import ApiUser from '../../apis/kang-blogging/user'
 import { IUser } from '../../interfaces/model/user'
-import { useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import Loader from '../../common/loader'
 import { ICommentMetadata } from '../../interfaces/model/comment'
 import ListBlog from '../home/components/list_blog'
 import ListComments from '../discussion/components/list_comments'
 import ListUsers from '../search/components/list_users'
+import { MapErrorResponse } from '../../utils/map_data_response'
+import { AxiosError } from 'axios'
+import { setNotify } from '../../redux/reducers/notify'
 
 const TypeTab = {
   ['selected']:
@@ -24,21 +27,58 @@ const TypeTab = {
 const UserProfile = () => {
   const { id } = useParams()
   const [user, setUser] = useState<IUser>()
+  const [isFollowed, setIsFollowed] = useState(false)
   const [comments, setComments] = useState<ICommentMetadata[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
   const [searchParam, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   var tab = searchParam.get('tab')
   if (tab == null) {
     searchParam.set('tab', 'blog')
     setSearchParams(searchParam)
   }
 
+  const followUser = () => {
+    ApiUser.followUser(id ?? '')
+      .then(() => {
+        setIsFollowed(true)
+      })
+      .catch((error) => {
+        const e = MapErrorResponse((error as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'An occurred error',
+            description: e.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+
+  const unfollowUser = () => {
+    ApiUser.unfollowUser(id ?? '')
+      .then(() => {
+        setIsFollowed(false)
+      })
+      .catch((error) => {
+        const e = MapErrorResponse((error as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'An occurred error',
+            description: e.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+
   useEffect(() => {
     ApiUser.getUserDetail(id ?? '').then((rs) => {
       setUser(rs.data.data.user)
       setComments(rs.data.data.comments)
+      setIsFollowed(rs.data.data.user.isFollowed)
       setIsLoading(false)
     })
   }, [id])
@@ -69,7 +109,10 @@ const UserProfile = () => {
       default:
         return (
           <div className="flex flex-col space-y-3">
-            <ListBlog AuthorIds={user?.userInfo.id} />
+            <ListBlog
+              AuthorIds={user?.userInfo.id}
+              Published={userStates.user?.id == user?.userInfo.id ? null : true}
+            />
           </div>
         )
     }
@@ -90,12 +133,20 @@ const UserProfile = () => {
               className="px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-900">
               Edit
             </button>
-          ) : !user?.isFollowed ? (
-            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
+          ) : !isFollowed ? (
+            <button
+              onClick={() => {
+                followUser()
+              }}
+              className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
               Follow
             </button>
           ) : (
-            <button className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
+            <button
+              onClick={() => {
+                unfollowUser()
+              }}
+              className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
               Unfollow
             </button>
           )}

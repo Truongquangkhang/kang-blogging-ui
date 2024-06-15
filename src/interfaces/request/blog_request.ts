@@ -8,6 +8,7 @@ export interface GetBlogsRequest {
     sortBy?: string | null
     published?: boolean | null
     isDeprecated?: boolean | null
+    getRelevant?: boolean | null
 }
 
 export interface CreateBlogRequest {

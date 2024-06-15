@@ -83,10 +83,12 @@ const EditProfile = () => {
               className="px-2 pt-2 w-full text-left text-x text-gray-700 leading-tight border-r rounded-lg rounded-t-lg border border-gray-200 hover:border-gray-200"
               required></textarea>
           </div>
-          <div className="flex-col text-left">
+          <div className="flex flex-col space-y-3 text-left">
+            <label className="text-x font-semibold">Avartar</label>
             <ImageUploader
               imageSrc={avatar}
               setImageSrc={setAvatar}
+              eager={'w_320,h_320,c_fit'}
             />
           </div>
         </div>

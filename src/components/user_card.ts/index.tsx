@@ -4,7 +4,7 @@ import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { GoPeople } from 'react-icons/go'
 import ApiUser from '../../apis/kang-blogging/user'
-import { useAppDispatch } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import { MapErrorResponse } from '../../utils/map_data_response'
 import { AxiosError } from 'axios'
 import { setNotify } from '../../redux/reducers/notify'
@@ -17,6 +17,7 @@ interface Props {
 const UserCard = ({ user }: Props) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const userState = useAppSelector((state) => state.user)
   const [isFollowed, setIsFollowed] = useState(user.isFollowed)
 
   const followUser = () => {
@@ -77,22 +78,26 @@ const UserCard = ({ user }: Props) => {
             </strong>
           </div>
         </div>
-        {!isFollowed ? (
-          <button
-            onClick={() => {
-              followUser()
-            }}
-            className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
-            Follow
-          </button>
+        {user.userInfo.id != userState.user?.id ? (
+          !isFollowed ? (
+            <button
+              onClick={() => {
+                followUser()
+              }}
+              className="text-white px-3 py-1 rounded-lg font-semibold bg-blue-800 hover:bg-blue-900 cursor-pointer">
+              Follow
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                unfollowUser()
+              }}
+              className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
+              Unfollow
+            </button>
+          )
         ) : (
-          <button
-            onClick={() => {
-              unfollowUser()
-            }}
-            className="text-white px-3 py-1 rounded-lg font-semibold bg-gray-400 hover:bg-gray-500 cursor-pointer">
-            Unfollow
-          </button>
+          <></>
         )}
       </div>
 
