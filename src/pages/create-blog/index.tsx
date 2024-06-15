@@ -51,7 +51,7 @@ const CreateBlog = () => {
     }
   }
   useEffect(() => {
-    ApiCategory.getCategories({ page: 1, pageSize: 100, sortBy: 'blog' })
+    ApiCategory.getCategories({ page: 1, pageSize: 100, sortBy: 'total_blog' })
       .then((rs) => {
         setCategories(rs.data.data.categories)
       })
