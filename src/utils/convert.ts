@@ -13,6 +13,18 @@ export const FormatTimestampToDate = (timestamp: number): string => {
   return date.toLocaleDateString('en-US', options);
 }
 
+export const FormatTimestampToDatetime = (timestamp: number): string => {
+    const date = new Date(timestamp * 1000);
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return date.toLocaleDateString('en-US', options);
+  }
+
 export const FormatRelativeTime = (timestamp: number): string => {
   timestamp = timestamp * 1000
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
