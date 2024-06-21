@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import reactStringReplace from 'react-string-replace'
 import { BlogComment } from '../../../components/comment/blog_comment'
 import ApiComment from '../../../apis/kang-blogging/comment'
 import { IComment, ICommentWithReplies } from '../../../interfaces/model/comment'
