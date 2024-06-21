@@ -2,6 +2,8 @@ import { IComment, ICommentWithReplies } from '../../interfaces/model/comment'
 import { useState } from 'react'
 import { CreateBlogCommentRequest } from '../../interfaces/request/comment_request'
 import { useNavigate } from 'react-router-dom'
+import { FormatTimestampToDate } from '../../utils/convert'
+import CommentBox from '../comment_box'
 
 interface Props {
   comment: ICommentWithReplies
@@ -32,7 +34,7 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
               </p>
             </p>
             <p className="text-sm text-gray-600">
-              <time title="February 8th, 2022">Feb. 8, 2022</time>
+              <p>{FormatTimestampToDate(comment.comment.createdAt)}</p>
             </p>
           </div>
           <ButtonSettingComment />
@@ -68,47 +70,26 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
             </svg>
             Reply
           </button>
-          <form className={`absolute: ${isShowTextBox ? 'block' : 'hidden'} mb-6`}>
-            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
-              <label className="sr-only">Your comment</label>
-              <textarea
-                id="comment"
-                value={yourComment}
-                onChange={(e) => {
-                  setYourComment(e.target.value)
-                }}
-                rows={6}
-                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
-                placeholder="Write a comment..."
-                required></textarea>
-            </div>
-            <div className="flex space-x-3">
-              <button
-                type="button"
-                onClick={() => {
-                  if (yourComment != '') {
-                    var request: CreateBlogCommentRequest = {
-                      content: yourComment,
-                      reply_comment_id: comment.comment.id,
-                    }
-                    replyTheComment(request)
-                    setIsShowTextBox(false)
-                    setYourComment('')
+          <div className={`absolute: ${isShowTextBox ? 'block' : 'hidden'} mb-6`}>
+            <CommentBox
+              yourComment={yourComment}
+              setYourComment={setYourComment}
+              handleSubmit={() => {
+                if (yourComment != '') {
+                  var request: CreateBlogCommentRequest = {
+                    content: yourComment,
+                    reply_comment_id: comment.comment.id,
                   }
-                }}
-                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center  bg-blue-800 text-white hover:bg-blue-900 rounded-lg focus:ring-4 focus:ring-primary-200">
-                Submit
-              </button>
-              <button
-                type="button"
-                onClick={() => {
+                  replyTheComment(request)
                   setIsShowTextBox(false)
-                }}
-                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-gray-300 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-gray-400">
-                Dismiss
-              </button>
-            </div>
-          </form>
+                  setYourComment('')
+                }
+              }}
+              handleDismiss={() => {
+                setIsShowTextBox(false)
+              }}
+            />
+          </div>
         </div>
       </article>
       {comment.replies.map((reply) => {
@@ -148,7 +129,7 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
             </p>
           </p>
           <p className="text-sm text-gray-600 ">
-            <time title="February 12th, 2022">Feb. 12, 2022</time>
+            <p>{FormatTimestampToDate(comment.createdAt)}</p>
           </p>
         </div>
         <ButtonSettingComment />
