@@ -1,5 +1,9 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { FormatRelativeTime, FormatTimestampToDate } from '../../utils/convert'
+import {
+  FormatRelativeTime,
+  FormatTimestampToDate,
+  FormatTimestampToDatetime,
+} from '../../utils/convert'
 import { RiBook2Line } from 'react-icons/ri'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { PiWarning } from 'react-icons/pi'
@@ -16,6 +20,8 @@ import ListUsers from '../search/components/list_users'
 import { MapErrorResponse } from '../../utils/map_data_response'
 import { AxiosError } from 'axios'
 import { setNotify } from '../../redux/reducers/notify'
+import { IoIosWarning } from 'react-icons/io'
+import { Tooltip } from '@mui/material'
 
 const TypeTab = {
   ['selected']:
@@ -152,13 +158,29 @@ const UserProfile = () => {
           )}
         </div>
         <div className="flex flex-col  items-center border-b-2 pb-10 border-gray-300">
-          <img
-            className="w-32 h-32 rounded-full"
-            src={user?.userInfo.avatar}
-          />
+          <div className="relative">
+            <img
+              className="w-32 h-32 rounded-full"
+              src={user?.userInfo.avatar}
+            />
+          </div>
           <strong className="mt-3 block text-xs text-gray-500 font-medium cursor-pointer hover:text-blue-900">
             @{user?.userInfo.displayName}
           </strong>
+          {user?.userInfo.expireWarningTime != null ? (
+            <div className="flex mt-2 items-center space-x-3">
+              <IoIosWarning color="yellow" />
+              <Tooltip
+                title={`The user has been banned from commenting ${FormatTimestampToDatetime(
+                  user.userInfo.expireWarningTime,
+                )}`}>
+                <p>Banned</p>
+              </Tooltip>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
           <strong className="mt-8 block text-2xl font-semibold cursor-pointer hover:text-blue-900">
             {user?.userInfo.name}
           </strong>
@@ -239,7 +261,7 @@ const UserProfile = () => {
                 className={
                   tab == 'violation' ? TypeTab['selected'] : TypeTab['unselect']
                 }>
-                {user?.totalViolations} total violated
+                {user?.totalViolations} total violations
               </strong>
             </div>
           </div>

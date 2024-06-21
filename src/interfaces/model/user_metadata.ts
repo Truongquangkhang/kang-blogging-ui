@@ -5,4 +5,5 @@ export interface IUSerMetadata {
     avatar?: string
     description?: string | null
     isActive: boolean | null
+    expireWarningTime?: number | null
 }
