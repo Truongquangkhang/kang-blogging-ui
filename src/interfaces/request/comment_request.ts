@@ -17,3 +17,11 @@ export interface GetCommentsByParamRequest {
     isToxicity?: boolean | null
     userIds?: string | null
 }
+
+export interface UpdateCommentRequest {
+    content: string
+}
+
+export interface DeleteCommentReqeust {
+    
+}

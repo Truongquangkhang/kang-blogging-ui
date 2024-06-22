@@ -26,3 +26,16 @@ export interface GetCommentsByParamResponse {
         pagination: IPagination
     }
 }
+
+export interface UpdateCommentResponse {
+    code: number
+    message: string
+    data: {
+        comment: IComment
+    }
+}
+
+export interface DeleteCommentResponse {
+    code: number
+    message: string
+}
