@@ -4,6 +4,13 @@ import { CreateBlogCommentRequest } from '../../interfaces/request/comment_reque
 import { useNavigate } from 'react-router-dom'
 import { FormatTimestampToDate } from '../../utils/convert'
 import CommentBox from '../comment_box'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { ButtonSettingComment } from './button_setting_comment'
+import { ButtonReportComment } from './button_report_comment'
+import ApiComment from '../../apis/kang-blogging/comment'
+import { MapErrorResponse } from '../../utils/map_data_response'
+import { AxiosError } from 'axios'
+import { setNotify } from '../../redux/reducers/notify'
 
 interface Props {
   comment: ICommentWithReplies
@@ -13,7 +20,50 @@ interface Props {
 export const BlogComment = ({ comment, replyTheComment }: Props) => {
   const [isShowTextBox, setIsShowTextBox] = useState(false)
   const [yourComment, setYourComment] = useState('')
+  const [openEditor, setOpenEditor] = useState(false)
+  const [commentEdited, setCommentEdited] = useState(comment.comment.content)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const userState = useAppSelector((state) => state.user)
+  const [deleted, setDeleted] = useState(false)
+
+  const updateComment = (content: string) => {
+    ApiComment.updateComment(comment.comment.id, { content: content })
+      .then((rs) => {
+        comment.comment.content = rs.data.data.comment.content
+        setOpenEditor(false)
+      })
+      .catch((e) => {
+        const err = MapErrorResponse((e as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'an occurred error',
+            description: err.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+
+  const deleteComment = () => {
+    ApiComment.deleteComment(comment.comment.id)
+      .then(() => {
+        setDeleted(true)
+      })
+      .catch((e) => {
+        const err = MapErrorResponse((e as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'an occurred error',
+            description: err.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+  if (deleted) {
+    return <></>
+  }
   return (
     <div>
       <article className="p-6 text-base bg-white rounded-lg">
@@ -37,13 +87,39 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
               <p>{FormatTimestampToDate(comment.comment.createdAt)}</p>
             </p>
           </div>
-          <ButtonSettingComment />
+          {userState.user?.id == comment.comment.user.id ? (
+            <ButtonSettingComment
+              handlerEdit={() => {
+                setOpenEditor(true)
+              }}
+              handlerDelete={() => {
+                deleteComment()
+              }}
+            />
+          ) : (
+            <ButtonReportComment />
+          )}
         </footer>
-        <div className="border border-gray-200 rounded-md bg-gray-100">
-          <p className="text-gray-500 pt-5 pb-5 text-left ml-10">
-            {comment.comment.content}
-          </p>
-        </div>
+        {openEditor ? (
+          <CommentBox
+            yourComment={commentEdited}
+            setYourComment={setCommentEdited}
+            handleSubmit={() => {
+              if (commentEdited != '') {
+                updateComment(commentEdited)
+              }
+            }}
+            handleDismiss={() => {
+              setOpenEditor(false)
+            }}
+          />
+        ) : (
+          <div className="border border-gray-200 rounded-md bg-gray-100">
+            <p className="text-gray-500 pt-5 pb-5 text-left ml-10">
+              {comment.comment.content}
+            </p>
+          </div>
+        )}
 
         <div className="flex-col items-center mt-4 space-x-4">
           <button
@@ -110,6 +186,49 @@ interface ReplyCommentProps {
 
 export const ReplyComment = ({ comment }: ReplyCommentProps) => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [openEditor, setOpenEditor] = useState(false)
+  const [commentEdited, setCommentEdited] = useState(comment.content)
+  const [deleted, setDeleted] = useState(false)
+
+  const deleteComment = () => {
+    ApiComment.deleteComment(comment.id)
+      .then(() => {
+        setDeleted(true)
+      })
+      .catch((e) => {
+        const err = MapErrorResponse((e as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'an occurred error',
+            description: err.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+
+  const updateComment = (content: string) => {
+    ApiComment.updateComment(comment.id, { content: content })
+      .then((rs) => {
+        comment.content = rs.data.data.comment.content
+        setOpenEditor(false)
+      })
+      .catch((e) => {
+        const err = MapErrorResponse((e as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'an occurred error',
+            description: err.message,
+            mustShow: true,
+          }),
+        )
+      })
+  }
+
+  if (deleted) {
+    return <></>
+  }
   return (
     <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg">
       <footer className="flex justify-between items-center mb-2">
@@ -132,62 +251,33 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
             <p>{FormatTimestampToDate(comment.createdAt)}</p>
           </p>
         </div>
-        <ButtonSettingComment />
+        <ButtonSettingComment
+          handlerEdit={() => {
+            setOpenEditor(true)
+          }}
+          handlerDelete={() => {
+            deleteComment()
+          }}
+        />
       </footer>
-      <div className="border border-gray-200 rounded-md  bg-gray-100">
-        <p className="text-gray-500 pt-5 pb-5 text-left ml-10">{comment.content}</p>
-      </div>
+      {openEditor ? (
+        <CommentBox
+          yourComment={commentEdited}
+          setYourComment={setCommentEdited}
+          handleSubmit={() => {
+            if (commentEdited != '') {
+              updateComment(commentEdited)
+            }
+          }}
+          handleDismiss={() => {
+            setOpenEditor(false)
+          }}
+        />
+      ) : (
+        <div className="border border-gray-200 rounded-md bg-gray-100">
+          <p className="text-gray-500 pt-5 pb-5 text-left ml-10">{comment.content}</p>
+        </div>
+      )}
     </article>
-  )
-}
-
-export const ButtonSettingComment = () => {
-  return (
-    <>
-      <button
-        id="dropdownComment1Button"
-        data-dropdown-toggle="dropdownComment1"
-        className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
-        type="button">
-        <svg
-          className="w-4 h-4"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 16 3">
-          <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-        </svg>
-        <span className="sr-only">Comment settings</span>
-      </button>
-      <div
-        id="dropdownComment1"
-        className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
-        <ul
-          className="py-1 text-sm text-gray-700 "
-          aria-labelledby="dropdownMenuIconHorizontalButton">
-          <li>
-            <a
-              href="#"
-              className="block py-2 px-4 hover:bg-gray-100  ">
-              Edit
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block py-2 px-4 hover:bg-gray-100  ">
-              Remove
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block py-2 px-4 hover:bg-gray-100  ">
-              Report
-            </a>
-          </li>
-        </ul>
-      </div>
-    </>
   )
 }
