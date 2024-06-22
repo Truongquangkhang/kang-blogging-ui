@@ -5,11 +5,12 @@ import BlogDetail from '../../../components/blog_detail.ts/blog_detail'
 import { Pagination } from '../../../components/pagination/pagination'
 import Loader from '../../../common/loader'
 import Empty from '../../../common/empty'
+import { useSearchParams } from 'react-router-dom'
 
 const PAGE_SIZE = 20
-const INITIAL_PAGE = 1
 
 export interface Props {
+  // Page: number
   SearchBy?: string | null
   SearchName?: string | null
   CategoryIds?: string
@@ -20,14 +21,14 @@ export interface Props {
 }
 
 const ListBlog = (prop: Props) => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [listBlogs, setListBlogs] = useState<IBlogMetadata[]>([])
-  const [page, setPage] = useState(INITIAL_PAGE)
+  const [page, setPage] = useState(parseInt(searchParams.get('page') ?? '1', 10))
   const [totalItems, setTotalItems] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     {
-      console.log('Call api getBlogs at here')
       ApiBlog.getBlogs({
         page: page,
         pageSize: PAGE_SIZE,
@@ -51,6 +52,12 @@ const ListBlog = (prop: Props) => {
         })
     }
   }, [page, prop])
+
+  const changePage = (page: number) => {
+    searchParams.set('page', page.toString())
+    setSearchParams(searchParams)
+    setPage(page)
+  }
 
   if (isLoading) {
     return <Loader />
@@ -76,7 +83,7 @@ const ListBlog = (prop: Props) => {
             totalItem={totalItems}
             itemPerPage={PAGE_SIZE}
             currentPage={page}
-            setCurrentPage={setPage}
+            setCurrentPage={changePage}
           />
         </div>
       </div>

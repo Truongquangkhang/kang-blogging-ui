@@ -5,9 +5,9 @@ import CommentCard from '../../../components/comment_card'
 import { Pagination } from '../../../components/pagination/pagination'
 import Loader from '../../../common/loader'
 import Empty from '../../../common/empty'
+import { useSearchParams } from 'react-router-dom'
 
 const PAGE_SIZE = 20
-const INITIAL_PAGE = 1
 export interface Props {
   SearchName?: string | null
   SortBy?: string | null
@@ -16,8 +16,9 @@ export interface Props {
 }
 
 const ListComments = (prop: Props) => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [listComments, setListComments] = useState<ICommentItem[]>([])
-  const [page, setPage] = useState(INITIAL_PAGE)
+  const [page, setPage] = useState(parseInt(searchParams.get('page') ?? '1', 10))
   const [totalItems, setTotalItems] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -44,6 +45,12 @@ const ListComments = (prop: Props) => {
     }
   }, [page, prop])
 
+  const changePage = (page: number) => {
+    searchParams.set('page', page.toString())
+    setSearchParams(searchParams)
+    setPage(page)
+  }
+
   if (isLoading) {
     return <Loader />
   }
@@ -66,7 +73,7 @@ const ListComments = (prop: Props) => {
           totalItem={totalItems}
           itemPerPage={PAGE_SIZE}
           currentPage={page}
-          setCurrentPage={setPage}
+          setCurrentPage={changePage}
         />
       </div>
     </div>

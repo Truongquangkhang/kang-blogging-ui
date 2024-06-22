@@ -88,7 +88,6 @@ export const Pagination = ({
   setCurrentPage,
 }: PaginationProps) => {
   const paginationNumbers = SetPaginationNumbers(totalItem, itemPerPage, currentPage)
-
   const handlerChangePage = (page: number) => {
     setCurrentPage(page)
     console.log('handler')
@@ -97,7 +96,7 @@ export const Pagination = ({
   return (
     <>
       <nav aria-label="Page navigation example">
-        <ul className="flex items-center -space-x-px h-10 text-base">
+        <ul className="flex items-center -space-x-px h-10 text-base cursor-pointer">
           <li>
             <a
               className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100"
