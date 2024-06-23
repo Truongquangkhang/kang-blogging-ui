@@ -17,7 +17,6 @@ const Blog = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [blog, setBlog] = useState<IBlog>()
   const navigate = useNavigate()
-  const userState = useAppSelector((state) => state.user)
   const authStates = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
   const [searchParams] = useSearchParams()
@@ -93,10 +92,7 @@ const Blog = () => {
                 <p className="text-sm">{' 3 days ago'}</p>
               </div>
             </div>
-            <div
-              className={`flex absolute: ${
-                blog?.blogInfo.author.id == userState.user?.id ? 'block' : 'hidden'
-              }`}>
+            <div className={`flex absolute: ${blog?.canEdit ? 'block' : 'hidden'}`}>
               <button
                 onClick={() => [navigate(`/blog/${id}/edit`)]}
                 type="button"
