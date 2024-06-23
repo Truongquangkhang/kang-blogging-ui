@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 import Login from './login/index.tsx'
 import NotFound from './errors/forbidden/index.tsx'
 import Home from './home/index.tsx'
@@ -14,6 +14,23 @@ import UserProfile from './user_profile/index.tsx'
 import EditUser from './edit_profile/index.tsx'
 import EditBlog from './edit_blog/index.tsx'
 import Discussion from './discussion/index.tsx'
+
+interface ProtectedRouteProps {
+  element: React.ComponentType<any>
+  isAuthenticated: boolean
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  element: Component,
+  isAuthenticated,
+  ...rest
+}) => {
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />
+}
+
+const isAuthenticated = (): boolean => {
+  return !!localStorage.getItem('auth')
+}
 
 const Router = createBrowserRouter([
   {
@@ -34,15 +51,34 @@ const Router = createBrowserRouter([
       },
       {
         path: '/blog/:id/edit',
-        element: <EditBlog />,
+        element: (
+          <ProtectedRoute
+            element={EditBlog}
+            isAuthenticated={isAuthenticated()}
+          />
+        ),
       },
       {
         path: '/blog/create',
-        element: <CreateBlog />,
+        element: (
+          <ProtectedRoute
+            element={CreateBlog}
+            isAuthenticated={isAuthenticated()}
+          />
+        ),
       },
       {
         path: '/user/:id',
         element: <UserProfile />,
+      },
+      {
+        path: '/user/:id/edit',
+        element: (
+          <ProtectedRoute
+            element={EditUser}
+            isAuthenticated={isAuthenticated()}
+          />
+        ),
       },
       {
         path: '/category/:id',
@@ -58,7 +94,12 @@ const Router = createBrowserRouter([
       },
       {
         path: '/edit-profile',
-        element: <EditUser />,
+        element: (
+          <ProtectedRoute
+            element={EditUser}
+            isAuthenticated={isAuthenticated()}
+          />
+        ),
       },
       {
         path: '/login',

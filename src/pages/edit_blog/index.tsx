@@ -14,7 +14,7 @@ import { MapErrorResponse } from '../../utils/map_data_response'
 const EditBlog = () => {
   const { id } = useParams()
   const [imageSrc, setImageSrc] = useState('')
-  const [value, setValue] = useState('**Hello world!!!**')
+  const [value, setValue] = useState('')
   const [title, setTitle] = useState('')
   const [categories, setCategories] = useState<ICategory[]>([])
   const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([])
@@ -51,6 +51,16 @@ const EditBlog = () => {
     ApiBlog.getBlogById(id)
       .then((rs) => {
         let blog = rs.data.data.blog
+        if (!blog.canEdit) {
+          dispatch(
+            setNotify({
+              title: 'an occurred error',
+              description: "you don't have permission",
+              mustShow: true,
+            }),
+          )
+          navigate('/')
+        }
         setImageSrc(blog.blogInfo.thumbnail)
         setValue(blog.content)
         setTitle(blog.blogInfo.name)
@@ -139,7 +149,6 @@ const EditBlog = () => {
 
     setValue(newValue)
 
-    // Set cursor position after the inserted text
     setTimeout(() => {
       textarea.selectionStart = textarea.selectionEnd = startPos + text.length
       textarea.focus()

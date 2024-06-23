@@ -38,6 +38,7 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(true)
   const userStates = useAppSelector((state) => state.user)
   const [searchParam, setSearchParams] = useSearchParams()
+  const [canEdit, setCanEdit] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   var tab = searchParam.get('tab')
@@ -81,12 +82,24 @@ const UserProfile = () => {
   }
 
   useEffect(() => {
-    ApiUser.getUserDetail(id ?? '').then((rs) => {
-      setUser(rs.data.data.user)
-      setComments(rs.data.data.comments)
-      setIsFollowed(rs.data.data.user.isFollowed)
-      setIsLoading(false)
-    })
+    ApiUser.getUserDetail(id ?? '')
+      .then((rs) => {
+        setUser(rs.data.data.user)
+        setComments(rs.data.data.comments)
+        setIsFollowed(rs.data.data.user.isFollowed)
+        setIsLoading(false)
+        setCanEdit(rs.data.data.canEdit)
+      })
+      .catch((err) => {
+        const error = MapErrorResponse((err as AxiosError).response)
+        dispatch(
+          setNotify({
+            title: 'An occurred error',
+            description: error.message,
+            mustShow: true,
+          }),
+        )
+      })
   }, [id])
 
   const RenderByTab = (tab: string) => {
@@ -131,7 +144,7 @@ const UserProfile = () => {
     <div className="flex flex-col p-10 justify-center items-center m-10">
       <div className="flex flex-col items-center justify-center w-full rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
         <div className={`flex w-full justify-end mb-2`}>
-          {userStates.user?.id == user?.userInfo.id ? (
+          {canEdit ? (
             <button
               onClick={() => {
                 navigate('/edit-profile')

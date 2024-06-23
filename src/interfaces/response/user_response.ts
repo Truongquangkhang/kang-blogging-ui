@@ -20,6 +20,7 @@ export interface GetUserDetailResponse {
         user: IUser
         blogs: IBlogMetadata[]
         comments: ICommentMetadata[]
+        canEdit: boolean
     }
 }
 

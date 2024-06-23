@@ -116,11 +116,8 @@ const BlogShowMore = ({ blog, callBack }: BlogShowMoreProps) => {
         className="text-base mt-3 hover:text-blue-900 cursor-pointer">
         {blog.name}
       </p>
-      <div className="flex">
-        {blog.categories.map((category, index) => {
-          if (index == 5) {
-            return
-          }
+      <div className="flex-wrap overflow-hidden">
+        {blog.categories.map((category) => {
           return (
             <a
               onClick={() => {
@@ -129,7 +126,7 @@ const BlogShowMore = ({ blog, callBack }: BlogShowMoreProps) => {
                 )
               }}
               key={category.id}
-              className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-1 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
+              className="mt-1 bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-1 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
               {category.name}
             </a>
           )

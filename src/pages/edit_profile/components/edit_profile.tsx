@@ -1,25 +1,28 @@
 import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../hooks'
+import { useAppDispatch } from '../../../hooks'
 import { useNavigate } from 'react-router-dom'
 import ApiUser from '../../../apis/kang-blogging/user'
 import { setUser } from '../../../redux/reducers/user'
 import { MapErrorResponse } from '../../../utils/map_data_response'
 import { setNotify } from '../../../redux/reducers/notify'
 import ImageUploader from '../../../components/upload_image'
+import { IUSerMetadata } from '../../../interfaces/model/user_metadata'
 
-const EditProfile = () => {
-  const userStates = useAppSelector((state) => state.user)
-  const authStates = useAppSelector((state) => state.auth)
+interface Props {
+  user: IUSerMetadata | undefined
+}
+
+const EditProfile = ({ user }: Props) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const [avatar, setAvatar] = useState(userStates.user?.avatar ?? '')
-  const [name, setName] = useState(userStates.user?.name)
-  const [displayName, setDisplayName] = useState(userStates.user?.displayName)
-  const [description, setDescription] = useState(userStates.user?.description)
+  const [avatar, setAvatar] = useState(user?.avatar ?? '')
+  const [name, setName] = useState(user?.name)
+  const [displayName, setDisplayName] = useState(user?.displayName)
+  const [description, setDescription] = useState(user?.description)
 
   const handleClickSubmit = () => {
     if (name != null && displayName != null && description != null && avatar != null) {
-      ApiUser.updateUser(userStates.user?.id ?? '', authStates.accessToken ?? '', {
+      ApiUser.updateUser(user?.id ?? '', {
         name: name,
         displayName: displayName,
         description: description,
@@ -46,6 +49,7 @@ const EditProfile = () => {
       dispatch(setNotify({ title: 'Error', description: 'Invalid data', mustShow: true }))
     }
   }
+
   return (
     <div className="flex flex-col space-y-10 w-full items-center justify-center">
       <div className="flex-col space-y-3 justify-start w-full rounded-lg border border-gray-100 bg-white px-4 py-3 shadow-lg">
@@ -104,7 +108,7 @@ const EditProfile = () => {
         </button>
         <button
           onClick={() => {
-            navigate(`/user/${userStates.user?.id}`)
+            navigate(`/user/${user?.id}`)
           }}
           type="button"
           className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-gray-300 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-gray-400">
