@@ -129,11 +129,6 @@ const Blog = () => {
           <div className="flex space-x-2">
             {blog?.blogInfo.categories.map((cate) => {
               return (
-                // <a
-                //   key={cate.id}
-                //   className="bg-blue-100 hover:bg-blue-200 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-white dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center cursor-pointer">
-                //   {cate.name}
-                // </a>
                 <Category
                   key={cate.id}
                   category={cate}
