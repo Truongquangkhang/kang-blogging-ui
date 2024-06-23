@@ -12,13 +12,9 @@ const ApiUser = {
         const url = `/api/v1/user/${user_id}`;
         return axiosClient.get<GetUserDetailResponse>(url)
     },
-    updateUser: (user_id: string, access_token: string,  params: UpdateUserRequest) => {
+    updateUser: (user_id: string, params: UpdateUserRequest) => {
         const url = `/api/v1/user/${user_id}`;
-        return axiosClient.patch<UpdateUserResponse>(url, params, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        })
+        return axiosClient.patch<UpdateUserResponse>(url, params)
     },
     followUser: (user_id: string) => {
         const url = `/api/v1/user/${user_id}/follow`;
