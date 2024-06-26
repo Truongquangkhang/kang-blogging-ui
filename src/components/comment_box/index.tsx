@@ -37,21 +37,25 @@ const CommentBox = ({
       window.clearTimeout(timeoutId)
     }
     const newTimeoutId = window.setTimeout(() => {
-      ApiDetectContent.detectContent(e.target.value)
-        .then((rs) => {
-          if (rs.data.predictions.includes(1)) {
-            setToxicComment(rs.data.text)
-            setPredictions(rs.data.predictions)
-          }
-        })
-        .catch(() => {
-          dispatch(
-            setNotify({ title: 'an occurred error', description: '', mustShow: true }),
-          )
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
+      if (e.target.value != '') {
+        ApiDetectContent.detectContent(e.target.value)
+          .then((rs) => {
+            if (rs.data.predictions.includes(1)) {
+              setToxicComment(rs.data.text)
+              setPredictions(rs.data.predictions)
+            }
+          })
+          .catch(() => {
+            dispatch(
+              setNotify({ title: 'an occurred error', description: '', mustShow: true }),
+            )
+          })
+          .finally(() => {
+            setIsLoading(false)
+          })
+      } else {
+        setIsLoading(false)
+      }
     }, 2000)
     setTimeoutId(newTimeoutId)
   }
