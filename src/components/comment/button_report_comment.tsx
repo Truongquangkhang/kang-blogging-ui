@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
-export const ButtonReportComment = () => {
+interface Props {
+  reportComment: any
+}
+
+export const ButtonReportComment = ({ reportComment }: Props) => {
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -47,7 +51,13 @@ export const ButtonReportComment = () => {
             className="py-1 text-sm text-gray-700"
             aria-labelledby="dropdownMenuIconHorizontalButton">
             <li>
-              <a className="block py-2 px-4 hover:bg-gray-100">Report</a>
+              <a
+                onClick={() => {
+                  reportComment()
+                }}
+                className="block py-2 px-4 hover:bg-gray-100">
+                Report
+              </a>
             </li>
           </ul>
         </div>

@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../hooks'
 import { setNotify } from '../../redux/reducers/notify'
 import { MapErrorResponse } from '../../utils/map_data_response'
 import { AxiosError } from 'axios'
+import { ButtonReportComment } from '../../components/comment/button_report_comment'
 
 const CommentDetail = () => {
   const { id } = useParams()
@@ -49,7 +50,7 @@ const CommentDetail = () => {
       .finally(() => {
         setIsLoading(false)
       })
-  })
+  }, [id])
 
   if (isLoading) {
     return <Loader />
@@ -79,6 +80,11 @@ const CommentDetail = () => {
               <p>{FormatTimestampToDate(comment?.createdAt ?? 0)}</p>
             </p>
           </div>
+          <ButtonReportComment
+            reportComment={() => {
+              navigate(`/report?type=comment&target_id=${comment?.id}`)
+            }}
+          />
         </footer>
         {comment?.isToxicity ? (
           <p className="text-red-400 text-xs text-left mb-3">This comment is toxic</p>

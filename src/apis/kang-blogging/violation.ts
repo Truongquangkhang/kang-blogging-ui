@@ -1,5 +1,5 @@
 import { GetViolationResponse } from '../../interfaces/response/violation_response';
-import { GetViolationsRequest } from './../../interfaces/request/violation_request';
+import { CreateReportRequest, GetViolationsRequest } from './../../interfaces/request/violation_request';
 import axiosClient from "./axios_client";
 
 const ApiViolation = {
@@ -7,6 +7,10 @@ const ApiViolation = {
         const url = '/api/v1/violation';
         return axiosClient.get<GetViolationResponse>(url, {params: params})
     },
+    creaetReport: (params: CreateReportRequest) => {
+        const url = '/api/v1/report';
+        return axiosClient.post(url, params)
+    }
 }
 
 export default ApiViolation
