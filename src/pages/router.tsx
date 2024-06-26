@@ -14,6 +14,7 @@ import UserProfile from './user_profile/index.tsx'
 import EditUser from './edit_profile/index.tsx'
 import EditBlog from './edit_blog/index.tsx'
 import Discussion from './discussion/index.tsx'
+import CommentDetail from './comment_detail/index.tsx'
 
 interface ProtectedRouteProps {
   element: React.ComponentType<any>
@@ -87,6 +88,10 @@ const Router = createBrowserRouter([
       {
         path: '/discussion',
         element: <Discussion />,
+      },
+      {
+        path: '/comment/:id',
+        element: <CommentDetail />,
       },
       {
         path: '/search',

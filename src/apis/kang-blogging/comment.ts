@@ -1,5 +1,5 @@
 import { CreateBlogCommentRequest, GetBlogCommentsRequest, GetCommentsByParamRequest, UpdateCommentRequest } from "../../interfaces/request/comment_request";
-import { CreateBlogCommentResponse, DeleteCommentResponse, GetBlogCommentsResponse, GetCommentsByParamResponse, UpdateCommentResponse } from "../../interfaces/response/comment_response";
+import { CreateBlogCommentResponse, DeleteCommentResponse, GetBlogCommentsResponse, GetCommentResponse, GetCommentsByParamResponse, UpdateCommentResponse } from "../../interfaces/response/comment_response";
 import axiosClient from "./axios_client";
 
 const ApiComment = {
@@ -22,7 +22,11 @@ const ApiComment = {
     deleteComment: (commentId: string) => {
         const url = `/api/v1/comment/${commentId}`
         return axiosClient.delete<DeleteCommentResponse>(url)
-    }
+    },
+    getComment: (commentId: string) => {
+        const url = `/api/v1/comment/${commentId}`
+        return axiosClient.get<GetCommentResponse>(url)
+    },
 }
 
 
