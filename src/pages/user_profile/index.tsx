@@ -22,6 +22,7 @@ import { AxiosError } from 'axios'
 import { setNotify } from '../../redux/reducers/notify'
 import { IoIosWarning } from 'react-icons/io'
 import { Tooltip } from '@mui/material'
+import ListViolations from './components/list_violation'
 
 const TypeTab = {
   ['selected']:
@@ -123,6 +124,12 @@ const UserProfile = () => {
         return (
           <div className="flex flex-col space-y-3">
             <ListUsers FollowerId={user?.userInfo.id} />
+          </div>
+        )
+      case 'violation':
+        return (
+          <div className="flex flex-col space-y-3">
+            <ListViolations UserIDs={user?.userInfo.id} />
           </div>
         )
       default:

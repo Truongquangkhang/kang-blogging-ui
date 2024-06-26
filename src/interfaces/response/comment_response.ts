@@ -39,3 +39,13 @@ export interface DeleteCommentResponse {
     code: number
     message: string
 }
+
+export interface GetCommentResponse {
+    code: number
+    message: string
+    data: {
+        comment: IComment
+        content_processed?: string | null
+        predictions: number[]
+    }
+}
