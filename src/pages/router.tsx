@@ -15,6 +15,7 @@ import EditUser from './edit_profile/index.tsx'
 import EditBlog from './edit_blog/index.tsx'
 import Discussion from './discussion/index.tsx'
 import CommentDetail from './comment_detail/index.tsx'
+import Report from './report/index.tsx'
 
 interface ProtectedRouteProps {
   element: React.ComponentType<any>
@@ -96,6 +97,10 @@ const Router = createBrowserRouter([
       {
         path: '/search',
         element: <Search />,
+      },
+      {
+        path: '/report',
+        element: <Report />,
       },
       {
         path: '/edit-profile',

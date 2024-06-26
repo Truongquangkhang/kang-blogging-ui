@@ -11,6 +11,7 @@ import { setNotify } from '../../redux/reducers/notify'
 import { MapErrorResponse } from '../../utils/map_data_response'
 import ThumbnailBlog from '../../assets/thumbnail_blog.webp'
 import Loader from '../../common/loader'
+import { ButtonReportComment } from '../../components/comment/button_report_comment'
 
 const Blog = () => {
   const { id } = useParams()
@@ -92,35 +93,43 @@ const Blog = () => {
                 <p className="text-sm">{' 3 days ago'}</p>
               </div>
             </div>
-            <div className={`flex absolute: ${blog?.canEdit ? 'block' : 'hidden'}`}>
-              <button
-                onClick={() => [navigate(`/blog/${id}/edit`)]}
-                type="button"
-                className="py-2.5 px-4 mr-2 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
-                Edit
-              </button>
+            {blog?.canEdit ? (
               <div>
-                {blog?.blogInfo.published ? (
-                  <button
-                    onClick={() => {
-                      handlerClickPublished(!blog?.blogInfo.published)
-                    }}
-                    type="button"
-                    className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
-                    Mark Draft
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handlerClickPublished(!blog?.blogInfo.published)
-                    }}
-                    type="button"
-                    className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
-                    Publish
-                  </button>
-                )}
+                <button
+                  onClick={() => [navigate(`/blog/${id}/edit`)]}
+                  type="button"
+                  className="py-2.5 px-4 mr-2 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                  Edit
+                </button>
+                <div>
+                  {blog?.blogInfo.published ? (
+                    <button
+                      onClick={() => {
+                        handlerClickPublished(!blog?.blogInfo.published)
+                      }}
+                      type="button"
+                      className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                      Mark Draft
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        handlerClickPublished(!blog?.blogInfo.published)
+                      }}
+                      type="button"
+                      className="py-2.5 px-4 text-xs font-medium border border-gray-300 rounded-lg  hover:bg-gray-200">
+                      Publish
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <ButtonReportComment
+                reportComment={() => {
+                  navigate(`/report?type=blog&target_id=${blog?.blogInfo.id}`)
+                }}
+              />
+            )}
           </div>
 
           <h1 className="text-4xl font-extrabold tracking-tight">

@@ -61,6 +61,11 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
         )
       })
   }
+
+  const reportComment = () => {
+    navigate(`/report?type=comment&target_id=${comment.comment.id}`)
+  }
+
   if (deleted) {
     return <></>
   }
@@ -97,7 +102,7 @@ export const BlogComment = ({ comment, replyTheComment }: Props) => {
               }}
             />
           ) : (
-            <ButtonReportComment />
+            <ButtonReportComment reportComment={reportComment} />
           )}
         </footer>
         {openEditor ? (
@@ -190,6 +195,7 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
   const [openEditor, setOpenEditor] = useState(false)
   const [commentEdited, setCommentEdited] = useState(comment.content)
   const [deleted, setDeleted] = useState(false)
+  const userState = useAppSelector((state) => state.user)
 
   const deleteComment = () => {
     ApiComment.deleteComment(comment.id)
@@ -226,6 +232,10 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
       })
   }
 
+  const reportComment = () => {
+    navigate(`/report?type=comment&target_id=${comment.id}`)
+  }
+
   if (deleted) {
     return <></>
   }
@@ -251,14 +261,18 @@ export const ReplyComment = ({ comment }: ReplyCommentProps) => {
             <p>{FormatTimestampToDate(comment.createdAt)}</p>
           </p>
         </div>
-        <ButtonSettingComment
-          handlerEdit={() => {
-            setOpenEditor(true)
-          }}
-          handlerDelete={() => {
-            deleteComment()
-          }}
-        />
+        {userState.user?.id == comment.user.id ? (
+          <ButtonSettingComment
+            handlerEdit={() => {
+              setOpenEditor(true)
+            }}
+            handlerDelete={() => {
+              deleteComment()
+            }}
+          />
+        ) : (
+          <ButtonReportComment reportComment={reportComment} />
+        )}
       </footer>
       {openEditor ? (
         <CommentBox

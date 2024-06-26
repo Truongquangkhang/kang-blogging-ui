@@ -4,3 +4,10 @@ export interface GetViolationsRequest {
     type?: string | null
     user_ids?: string | null
 }
+
+export interface CreateReportRequest {
+    type: string
+    targetId: string
+    reason: string
+    description?: string
+}
