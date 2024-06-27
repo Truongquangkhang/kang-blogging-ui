@@ -94,7 +94,7 @@ const Blog = () => {
               </div>
             </div>
             {blog?.canEdit ? (
-              <div>
+              <div className="flex">
                 <button
                   onClick={() => [navigate(`/blog/${id}/edit`)]}
                   type="button"

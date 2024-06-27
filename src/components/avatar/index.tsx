@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { IUSerMetadata } from '../../interfaces/model/user_metadata'
 import { useNavigate } from 'react-router-dom'
+import defaultAvatart from '../../assets/default_avatar.jpg'
 
 interface Props {
   user?: IUSerMetadata
@@ -32,7 +33,7 @@ export const Avatar = ({ user }: Props) => {
           data-dropdown-toggle="userDropdown"
           data-dropdown-placement="bottom-start"
           className="w-10 h-10 rounded-full cursor-pointer"
-          src={user?.avatar}
+          src={user?.avatar != '' && user?.avatar != null ? user.avatar : defaultAvatart}
           alt="User dropdown"
           onClick={() => {
             setOpen(!open)
@@ -62,23 +63,21 @@ export const Avatar = ({ user }: Props) => {
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+            <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
               Blogs
             </a>
           </li>
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+            <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
               Settings
             </a>
           </li>
         </ul>
         <div className="py-1">
           <a
-            href="logout"
+            onClick={() => {
+              navigate(`/logout`)
+            }}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
             Sign out
           </a>

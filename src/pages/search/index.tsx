@@ -14,8 +14,8 @@ const TypeTab = {
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const search_name = searchParams.get('q')
-  var sort_by = searchParams.get('sort_by')
+  const search_name = searchParams.get('q')?.toString().trim()
+  var sort_by = searchParams.get('sort_by')?.toString().trim()
   if (sort_by == null) {
     searchParams.set('sort_by', 'newest')
     setSearchParams(searchParams)
@@ -125,6 +125,7 @@ const RenderByTab = ({ tab, searchName, sortBy }: RenderByTabProps) => {
   } else if (tab == 'Discussions') {
     return (
       <ListComments
+        IsToxic={false}
         SearchName={searchName}
         SortBy={sortBy != 'newest' ? 'total_reply' : 'created_at'}
       />

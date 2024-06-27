@@ -24,19 +24,13 @@ const Category = () => {
             {searchParams.get('n')}
           </strong>
         </div>
-        {/* <div
-          className={`absolute:${
-            searchParams.get('n') != null ? 'block' : 'hidden'
-          } flex mt-3 ml-12 items-start`}>
-          <RiBook2Fill />
-          <strong
-            className={`ml-2 block text-xs font-medium cursor-pointer hover:text-blue-900`}>
-            {searchParams.get('t')}
-          </strong>
-        </div> */}
       </div>
       <div className="w-3/4">
-        <ListBlog CategoryIds={id} />
+        <ListBlog
+          Published={true}
+          SortBy={'updated_at'}
+          CategoryIds={id}
+        />
       </div>
     </div>
   )
